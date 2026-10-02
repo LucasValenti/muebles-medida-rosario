@@ -35,7 +35,9 @@ const jsonLd = pendiente(negocio.nombre)
     <meta property="og:locale" content="es_AR" />
     <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descripcion} />
-    <meta property="og:image" content="/fotos/og.jpg" />
+    <meta property="og:url" content={new URL('/', Astro.site).href} />
+    <meta property="og:image" content={new URL('/fotos/og.jpg', Astro.site).href} />
+    <meta property="og:image:alt" content="Mesa auxiliar de nogal en forma de S junto a un sillón" />
     <meta name="twitter:card" content="summary_large_image" />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>

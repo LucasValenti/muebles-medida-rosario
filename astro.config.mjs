@@ -7,8 +7,8 @@ import cloudflare from '@astrojs/cloudflare';
 const enDesarrollo = process.argv.includes('dev');
 
 export default defineConfig({
-  // Cambiar por el dominio real cuando se publique
-  site: 'https://ejemplo.com.ar',
+  // Cambiar por el dominio propio cuando lo tengan; se usa en la vista previa al compartir el link
+  site: 'https://muebles-medida-rosario.kusak.workers.dev',
   // Las páginas se generan estáticas; solo el panel /keystatic corre en el servidor
   output: 'static',
   adapter: enDesarrollo ? undefined : cloudflare({ imageService: 'compile' }),
