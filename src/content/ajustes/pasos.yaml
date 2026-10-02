@@ -1,9 +1,9 @@
 lista:
-  - titulo: "Elegís la pieza"
-    texto: "Del catálogo, con sus medidas ya resueltas. Si tu espacio pide otras, nos mandás foto y medidas."
-  - titulo: "Presupuesto y terminación"
-    texto: "Definimos materiales, colores, terminaciones y plazo."
-  - titulo: "Fabricación"
-    texto: "La hacemos en nuestro taller de Rosario."
-  - titulo: "Entrega y armado"
-    texto: "La llevamos y la armamos en tu casa."
+  - titulo: Elegís la pieza
+    texto: Del catálogo. Si tu espacio pide otras, nos mandás foto y medidas.
+  - titulo: Presupuesto y terminación
+    texto: Definimos materiales, colores, terminaciones y plazo.
+  - titulo: Fabricación
+    texto: La hacemos en nuestro taller con mucho amor.
+  - titulo: Entrega y armado
+    texto: La llevamos y la armamos en tu casa.
