@@ -3,6 +3,8 @@ import { Image } from 'astro:assets';
 import { negocio as cargarNegocio } from '../../lib/contenido';
 import { pendiente } from '../../lib/formato';
 const negocio = await cargarNegocio();
+// Los videos propios en /video/ traen su cuadro de portada al lado (taller.mp4 → taller.jpg)
+const poster = negocio.videoTaller?.startsWith('/video/') ? negocio.videoTaller.replace(/\.mp4$/, '.jpg') : negocio.fotoTaller.src;
 
 // Datos tomados de la propuesta original del cliente
 const datos = [
@@ -15,11 +17,11 @@ const datos = [
   <div class="envoltura taller__grilla">
     <figure class="taller__foto">
       {negocio.videoTaller ? (
-        <video src={negocio.videoTaller} controls playsinline preload="metadata" poster={negocio.fotoTaller.src}>Video del taller</video>
+        <video src={negocio.videoTaller} autoplay muted loop playsinline preload="metadata" poster={poster} aria-label="Video: manos trabajando la madera en el taller" data-video-taller></video>
       ) : (
         <Image src={negocio.fotoTaller} alt="El taller" widths={[500, 900, 1300]} sizes="(max-width: 900px) 100vw, 42vw" />
       )}
-      {!negocio.videoTaller && negocio.fotoTallerMuestra && <figcaption class="rotulo muestra">Muestra · video del taller pendiente</figcaption>}
+      {negocio.fotoTallerMuestra && <figcaption class="rotulo muestra">{negocio.videoTaller ? 'Muestra · video de referencia' : 'Muestra · video del taller pendiente'}</figcaption>}
     </figure>
 
     <div class="taller__texto">
@@ -42,6 +44,15 @@ const datos = [
     </div>
   </div>
 </section>
+
+<script>
+  // Con movimiento reducido el video queda quieto en su primer cuadro
+  const video = document.querySelector<HTMLVideoElement>('[data-video-taller]');
+  if (video && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    video.removeAttribute('autoplay');
+    video.pause();
+  }
+</script>
 
 <style>
   .taller { padding-block: var(--seccion); }

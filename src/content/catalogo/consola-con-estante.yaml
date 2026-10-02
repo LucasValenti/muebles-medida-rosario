@@ -1,0 +1,12 @@
+mueble: Consola con estante
+orden: 50
+foto: ../../assets/catalogo/consola-con-estante/foto.jpg
+alt: Consola de pino claro con un cajón y un estante de listones con canasto, un florero con pampas y un cuadro encima
+encuadre: centro
+muestra: true
+ambiente: Recibidor
+terminacion: Pino
+ancho: 80
+alto: 75
+prof: 35
+forma: generica

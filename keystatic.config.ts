@@ -65,9 +65,9 @@ export default config({
           validation: { isRequired: true },
         }),
         fotoTallerMuestra: fields.checkbox({ label: 'La foto del taller es de muestra', defaultValue: true }),
-        videoTaller: fields.url({
+        videoTaller: fields.text({
           label: 'Video del taller (opcional)',
-          description: 'Link directo a un archivo .mp4. Si está vacío se muestra la foto.',
+          description: 'Ruta o link a un archivo .mp4, corto y sin sonido. Se reproduce en loop. Si está vacío se muestra la foto.',
         }),
       },
     }),
