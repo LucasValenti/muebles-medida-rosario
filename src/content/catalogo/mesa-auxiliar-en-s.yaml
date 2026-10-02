@@ -1,0 +1,12 @@
+mueble: "Mesa auxiliar en S"
+orden: 20
+foto: "../../assets/catalogo/mesa-auxiliar-en-s/foto.jpg"
+alt: "Mesa auxiliar de nogal con forma de S al lado de un sillón, con una taza, un florero y libros"
+encuadre: "abajo"
+muestra: true
+ambiente: "Living"
+terminacion: "Nogal"
+ancho: 50
+alto: 60
+prof: 30
+forma: "ese"

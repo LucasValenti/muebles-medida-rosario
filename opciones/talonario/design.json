@@ -1,0 +1,473 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-30T04:06:13.768Z",
+  "title": "Design System: Carpintería · Muebles a medida · Rosario",
+  "extensions": {
+    "colorMeta": {
+      "papel": {
+        "role": "neutral",
+        "displayName": "Papel de Talonario",
+        "canonical": "#fcfcfa",
+        "tonalRamp": [
+          "oklch(15% 0.002 100)",
+          "oklch(25% 0.002 100)",
+          "oklch(35% 0.003 100)",
+          "oklch(45% 0.003 100)",
+          "oklch(55% 0.003 100)",
+          "oklch(65% 0.003 100)",
+          "oklch(80% 0.003 100)",
+          "oklch(95% 0.002 100)"
+        ]
+      },
+      "rosa": {
+        "role": "tertiary",
+        "displayName": "Copia Rosa",
+        "canonical": "#f4c6cf",
+        "tonalRamp": [
+          "oklch(15% 0.033 5)",
+          "oklch(25% 0.033 5)",
+          "oklch(35% 0.060 5)",
+          "oklch(45% 0.060 5)",
+          "oklch(55% 0.060 5)",
+          "oklch(65% 0.060 5)",
+          "oklch(80% 0.060 5)",
+          "oklch(95% 0.033 5)"
+        ]
+      },
+      "amarillo": {
+        "role": "tertiary",
+        "displayName": "Copia Amarilla",
+        "canonical": "#f6e27a",
+        "tonalRamp": [
+          "oklch(15% 0.072 98)",
+          "oklch(25% 0.072 98)",
+          "oklch(35% 0.130 98)",
+          "oklch(45% 0.130 98)",
+          "oklch(55% 0.130 98)",
+          "oklch(65% 0.130 98)",
+          "oklch(80% 0.130 98)",
+          "oklch(95% 0.072 98)"
+        ]
+      },
+      "carbonico": {
+        "role": "neutral",
+        "displayName": "Carbónico Nocturno",
+        "canonical": "#161b3d",
+        "tonalRamp": [
+          "oklch(15% 0.039 275)",
+          "oklch(25% 0.039 275)",
+          "oklch(35% 0.070 275)",
+          "oklch(45% 0.070 275)",
+          "oklch(55% 0.070 275)",
+          "oklch(65% 0.070 275)",
+          "oklch(80% 0.070 275)",
+          "oklch(95% 0.039 275)"
+        ]
+      },
+      "tinta": {
+        "role": "neutral",
+        "displayName": "Tinta Impresa",
+        "canonical": "#1c1c1f",
+        "tonalRamp": [
+          "oklch(15% 0.003 285)",
+          "oklch(25% 0.003 285)",
+          "oklch(35% 0.006 285)",
+          "oklch(45% 0.006 285)",
+          "oklch(55% 0.006 285)",
+          "oklch(65% 0.006 285)",
+          "oklch(80% 0.006 285)",
+          "oklch(95% 0.003 285)"
+        ]
+      },
+      "tinta-2": {
+        "role": "neutral",
+        "displayName": "Tinta Gastada",
+        "canonical": "#55555c",
+        "tonalRamp": [
+          "oklch(15% 0.006 285)",
+          "oklch(25% 0.006 285)",
+          "oklch(35% 0.010 285)",
+          "oklch(45% 0.010 285)",
+          "oklch(55% 0.010 285)",
+          "oklch(65% 0.010 285)",
+          "oklch(80% 0.010 285)",
+          "oklch(95% 0.006 285)"
+        ]
+      },
+      "carbon": {
+        "role": "primary",
+        "displayName": "Azul Carbónico",
+        "canonical": "#2b3a8c",
+        "tonalRamp": [
+          "oklch(15% 0.077 272)",
+          "oklch(25% 0.077 272)",
+          "oklch(35% 0.140 272)",
+          "oklch(45% 0.140 272)",
+          "oklch(55% 0.140 272)",
+          "oklch(65% 0.140 272)",
+          "oklch(80% 0.140 272)",
+          "oklch(95% 0.077 272)"
+        ]
+      },
+      "sello": {
+        "role": "secondary",
+        "displayName": "Rojo Numeradora",
+        "canonical": "#c8322b",
+        "tonalRamp": [
+          "oklch(15% 0.094 28)",
+          "oklch(25% 0.094 28)",
+          "oklch(35% 0.170 28)",
+          "oklch(45% 0.170 28)",
+          "oklch(55% 0.170 28)",
+          "oklch(65% 0.170 28)",
+          "oklch(80% 0.170 28)",
+          "oklch(95% 0.094 28)"
+        ]
+      },
+      "rayado": {
+        "role": "neutral",
+        "displayName": "Rayado",
+        "canonical": "#c3cedc",
+        "tonalRamp": [
+          "oklch(15% 0.014 255)",
+          "oklch(25% 0.014 255)",
+          "oklch(35% 0.025 255)",
+          "oklch(45% 0.025 255)",
+          "oklch(55% 0.025 255)",
+          "oklch(65% 0.025 255)",
+          "oklch(80% 0.025 255)",
+          "oklch(95% 0.014 255)"
+        ]
+      },
+      "rayado-fuerte": {
+        "role": "neutral",
+        "displayName": "Rayado Fuerte",
+        "canonical": "#8e9cb0",
+        "tonalRamp": [
+          "oklch(15% 0.019 255)",
+          "oklch(25% 0.019 255)",
+          "oklch(35% 0.035 255)",
+          "oklch(45% 0.035 255)",
+          "oklch(55% 0.035 255)",
+          "oklch(65% 0.035 255)",
+          "oklch(80% 0.035 255)",
+          "oklch(95% 0.019 255)"
+        ]
+      },
+      "tinta-rosa": {
+        "role": "tertiary",
+        "displayName": "Vino de Copia",
+        "canonical": "#6b2437",
+        "tonalRamp": [
+          "oklch(15% 0.050 5)",
+          "oklch(25% 0.050 5)",
+          "oklch(35% 0.090 5)",
+          "oklch(45% 0.090 5)",
+          "oklch(55% 0.090 5)",
+          "oklch(65% 0.090 5)",
+          "oklch(80% 0.090 5)",
+          "oklch(95% 0.050 5)"
+        ]
+      },
+      "tinta-amarilla": {
+        "role": "tertiary",
+        "displayName": "Ocre de Copia",
+        "canonical": "#574807",
+        "tonalRamp": [
+          "oklch(15% 0.050 95)",
+          "oklch(25% 0.050 95)",
+          "oklch(35% 0.090 95)",
+          "oklch(45% 0.090 95)",
+          "oklch(55% 0.090 95)",
+          "oklch(65% 0.090 95)",
+          "oklch(80% 0.090 95)",
+          "oklch(95% 0.050 95)"
+        ]
+      },
+      "tinta-carbonico": {
+        "role": "neutral",
+        "displayName": "Lavanda de Carbónico",
+        "canonical": "#c9cde6",
+        "tonalRamp": [
+          "oklch(15% 0.022 275)",
+          "oklch(25% 0.022 275)",
+          "oklch(35% 0.040 275)",
+          "oklch(45% 0.040 275)",
+          "oklch(55% 0.040 275)",
+          "oklch(65% 0.040 275)",
+          "oklch(80% 0.040 275)",
+          "oklch(95% 0.022 275)"
+        ]
+      },
+      "hoja-blanca": {
+        "role": "neutral",
+        "displayName": "Hoja Blanca",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.000 0)",
+          "oklch(25% 0.000 0)",
+          "oklch(35% 0.000 0)",
+          "oklch(45% 0.000 0)",
+          "oklch(55% 0.000 0)",
+          "oklch(65% 0.000 0)",
+          "oklch(80% 0.000 0)",
+          "oklch(95% 0.000 0)"
+        ]
+      },
+      "tinta-sobre-carbonico": {
+        "role": "neutral",
+        "displayName": "Tinta sobre Carbónico",
+        "canonical": "#eef0fa",
+        "tonalRamp": [
+          "oklch(15% 0.011 275)",
+          "oklch(25% 0.011 275)",
+          "oklch(35% 0.020 275)",
+          "oklch(45% 0.020 275)",
+          "oklch(55% 0.020 275)",
+          "oklch(65% 0.020 275)",
+          "oklch(80% 0.020 275)",
+          "oklch(95% 0.011 275)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "H1 de la portada, condensado wdth 64."
+      },
+      "documento": {
+        "displayName": "Documento",
+        "purpose": "Tipo de comprobante \"PRESUPUESTO\" en el membrete, en mayúsculas."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "H2 de cada hoja, wdth 72."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "H3 de trabajos y pasos, wdth 85."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto corrido sobre el renglón de 1.75rem, máximo 65ch."
+      },
+      "label": {
+        "displayName": "Rótulo",
+        "purpose": "Rótulo impreso de campo, en mayúsculas con 0.08em."
+      },
+      "mano": {
+        "displayName": "Mano",
+        "purpose": "Solo lo escrito a mano: campos completados, calco, citas, firmas, fecha."
+      }
+    },
+    "shadows": [
+      {
+        "name": "adjunto",
+        "value": "0 1px 2px rgb(28 28 31 / 0.12), 0 18px 40px -22px rgb(28 28 31 / 0.45)",
+        "purpose": "Foto adjunta sobre papel."
+      },
+      {
+        "name": "original",
+        "value": "0 1px 2px rgb(28 28 31 / 0.12), 0 24px 50px -30px rgb(28 28 31 / 0.5)",
+        "purpose": "Formulario blanco sobre su copia."
+      },
+      {
+        "name": "adjunto-rosa",
+        "value": "0 1px 2px rgb(107 36 55 / 0.18), 0 22px 40px -24px rgb(107 36 55 / 0.55)",
+        "purpose": "Adjuntos sobre la copia rosa, sombra teñida de vino."
+      },
+      {
+        "name": "copia",
+        "value": "0 1px 2px rgb(107 36 55 / 0.2)",
+        "purpose": "Copia rosa asomando bajo el original."
+      },
+      {
+        "name": "talon",
+        "value": "0 1px 0 rgb(22 27 61 / 0.25), 0 10px 22px -12px rgb(22 27 61 / 0.55)",
+        "purpose": "Talón en reposo."
+      },
+      {
+        "name": "talon-hover",
+        "value": "0 1px 0 rgb(22 27 61 / 0.25), 0 16px 28px -14px rgb(22 27 61 / 0.6)",
+        "purpose": "Talón levantado 2px en hover."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-salida",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Salida suave para talón, flechas, íconos y el talón fijo."
+      },
+      {
+        "name": "escribir",
+        "value": "steps(largo) · largo × 28ms + 180ms, clip-path",
+        "purpose": "Revelado de lo escrito en carbónico en la portada."
+      },
+      {
+        "name": "sellar",
+        "value": "0.5s ease-salida, escala 1.5 → 1 con desenfoque",
+        "purpose": "Golpe del sello de goma, una vez."
+      },
+      {
+        "name": "arrancar",
+        "value": "0.65s cubic-bezier(0.5, 0, 0.75, 0)",
+        "purpose": "El talón del formulario se desprende al enviar."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "barra-compacta",
+        "value": "520px"
+      },
+      {
+        "name": "movil",
+        "value": "640px"
+      },
+      {
+        "name": "pasos",
+        "value": "760px"
+      },
+      {
+        "name": "sin-nav",
+        "value": "860px"
+      },
+      {
+        "name": "una-columna",
+        "value": "900px"
+      },
+      {
+        "name": "pie",
+        "value": "1000px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Talón",
+      "kind": "button",
+      "refersTo": "talon",
+      "description": "Acción principal: talón de talonario con troquel punteado; siempre lleva a WhatsApp.",
+      "html": "<a class=\"ds-talon\" href=\"#\"><span class=\"ds-talon__talonario\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z\"/></svg></span><span class=\"ds-talon__texto\">Pedí tu presupuesto por WhatsApp</span></a>",
+      "css": ".ds-talon { display: inline-flex; align-items: stretch; min-height: 3.5rem; background: var(--carbon, #2b3a8c); color: var(--papel, #fcfcfa); text-decoration: none; font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; font-weight: 700; font-variation-settings: 'wdth' 85; font-size: 1.0625rem; line-height: 1.2; border-radius: 3px; box-shadow: 0 1px 0 rgb(22 27 61 / 0.25), 0 10px 22px -12px rgb(22 27 61 / 0.55); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1); } .ds-talon__talonario { display: grid; place-items: center; padding-inline: 1rem; border-right: 2px dotted rgb(252 252 250 / 0.55); } .ds-talon__texto { display: flex; align-items: center; padding: 0.75rem 1.25rem; } .ds-talon:hover { transform: translateY(-2px); box-shadow: 0 1px 0 rgb(22 27 61 / 0.25), 0 16px 28px -14px rgb(22 27 61 / 0.6); } .ds-talon:active { transform: translateY(0); } .ds-talon:focus-visible { outline: 2px solid var(--carbon, #2b3a8c); outline-offset: 3px; }"
+    },
+    {
+      "name": "Botón de línea",
+      "kind": "button",
+      "refersTo": "boton-linea",
+      "description": "Acción secundaria (llamar, pedir presupuesto en la barra): contorno que se rellena en tinta.",
+      "html": "<a class=\"ds-boton-linea\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z\"/></svg> Llamar ahora</a>",
+      "css": ".ds-boton-linea { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 3.5rem; padding: 0.75rem 1.25rem; border: 1.5px solid currentColor; border-radius: 3px; color: var(--tinta, #1c1c1f); text-decoration: none; font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; font-weight: 650; font-variation-settings: 'wdth' 85; line-height: 1.2; transition: background-color 0.2s, color 0.2s; } .ds-boton-linea:hover { background: var(--tinta, #1c1c1f); color: var(--papel, #fcfcfa); border-color: var(--tinta, #1c1c1f); } .ds-boton-linea:focus-visible { outline: 2px solid var(--carbon, #2b3a8c); outline-offset: 3px; }"
+    },
+    {
+      "name": "Campo de renglón",
+      "kind": "input",
+      "refersTo": "campo-linea",
+      "description": "Campo sin caja: rótulo impreso y valor en birome azul sobre la línea.",
+      "html": "<div class=\"ds-linea\"><label class=\"ds-rotulo\" for=\"ds-n\">Señor/es</label><input id=\"ds-n\" placeholder=\"Tu nombre\" /></div>",
+      "css": ".ds-linea { display: flex; align-items: baseline; gap: 0.9rem; border-bottom: 1px solid var(--rayado-fuerte, #8e9cb0); padding-top: 0.9rem; transition: border-color 0.2s; font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; } .ds-linea:focus-within { border-bottom-color: var(--carbon, #2b3a8c); box-shadow: 0 1px 0 var(--carbon, #2b3a8c); } .ds-rotulo { flex: none; min-width: 5.5rem; font-size: 0.75rem; line-height: 1; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; font-variation-settings: 'wdth' 90; color: var(--tinta-2, #55555c); } .ds-linea input { flex: 1; min-width: 0; border: 0; background: transparent; font-family: 'Kalam', 'Segoe Print', cursive; color: var(--carbon, #2b3a8c); font-size: 1.375rem; line-height: 2.5rem; padding: 0; outline: none; } .ds-linea input::placeholder { color: #6b6b73; opacity: 1; }"
+    },
+    {
+      "name": "Opción de mueble",
+      "kind": "chip",
+      "refersTo": "opcion-tipo",
+      "description": "Radio con casillero cuadrado; al elegirla se tilda en azul carbónico.",
+      "html": "<label class=\"ds-tipo\"><input type=\"radio\" name=\"ds-m\" checked /><span class=\"ds-tipo__caja\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg></span><span>Placard</span></label> <label class=\"ds-tipo\"><input type=\"radio\" name=\"ds-m\" /><span class=\"ds-tipo__caja\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg></span><span>Cocina</span></label>",
+      "css": ".ds-tipo { position: relative; display: inline-flex; align-items: center; gap: 0.55rem; min-height: 2.75rem; padding: 0.4rem 0.9rem 0.4rem 0.6rem; border: 1.5px solid var(--rayado-fuerte, #8e9cb0); border-radius: 3px; cursor: pointer; font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; font-weight: 600; font-variation-settings: 'wdth' 88; line-height: 1.2; color: var(--tinta, #1c1c1f); transition: border-color 0.2s, background-color 0.2s; } .ds-tipo:hover { border-color: var(--tinta, #1c1c1f); } .ds-tipo input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; } .ds-tipo__caja { display: grid; place-items: center; width: 1.25rem; height: 1.25rem; border: 1.5px solid var(--tinta, #1c1c1f); color: transparent; } .ds-tipo:has(input:checked) { border-color: var(--carbon, #2b3a8c); background: rgb(43 58 140 / 0.06); } .ds-tipo:has(input:checked) .ds-tipo__caja { color: var(--carbon, #2b3a8c); border-color: var(--carbon, #2b3a8c); } .ds-tipo:has(input:focus-visible) { outline: 2px solid var(--carbon, #2b3a8c); outline-offset: 3px; }"
+    },
+    {
+      "name": "Barra",
+      "kind": "nav",
+      "refersTo": "boton-linea",
+      "description": "Barra pegajosa en papel translúcido con marca condensada, enlaces en tinta secundaria y botón de línea.",
+      "html": "<header class=\"ds-barra\"><a class=\"ds-barra__marca\" href=\"#\">Carpintería</a><nav><a href=\"#\">Trabajos</a><a href=\"#\">El taller</a><a href=\"#\">Cómo trabajamos</a></nav><a class=\"ds-barra__cta\" href=\"#\">Pedir presupuesto</a></header>",
+      "css": ".ds-barra { display: flex; align-items: center; gap: 2rem; min-height: 4rem; padding-inline: 1.5rem; background: rgb(252 252 250 / 0.94); border-bottom: 1px solid var(--rayado, #c3cedc); font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; color: var(--tinta, #1c1c1f); } .ds-barra__marca { font-weight: 800; font-variation-settings: 'wdth' 75; font-size: 1.1875rem; letter-spacing: -0.01em; text-decoration: none; color: inherit; margin-right: auto; } .ds-barra nav { display: flex; gap: 1.75rem; } .ds-barra nav a { text-decoration: none; font-size: 0.9375rem; font-weight: 550; font-variation-settings: 'wdth' 90; color: var(--tinta-2, #55555c); transition: color 0.2s; } .ds-barra nav a:hover { color: var(--tinta, #1c1c1f); text-decoration: underline; } .ds-barra__cta { font-weight: 700; font-variation-settings: 'wdth' 85; font-size: 0.9375rem; text-decoration: none; color: inherit; padding: 0.6rem 1rem; border: 1.5px solid var(--tinta, #1c1c1f); border-radius: 3px; transition: background-color 0.2s, color 0.2s; } .ds-barra__cta:hover { background: var(--tinta, #1c1c1f); color: var(--papel, #fcfcfa); }"
+    },
+    {
+      "name": "Hoja con folio",
+      "kind": "custom",
+      "refersTo": "rotulo",
+      "description": "Sección como hoja del block: troquel arriba y folio de copia + \"Hoja N\" en rojo en el margen derecho.",
+      "html": "<section class=\"ds-hoja\"><p class=\"ds-hoja__marca\" aria-hidden=\"true\"><span>Duplicado</span><span class=\"ds-hoja__num\">Hoja 3</span></p><h2 class=\"ds-h2\">Oficio de siempre, precisión de hoy.</h2></section>",
+      "css": ".ds-hoja { position: relative; padding: 4.5rem 1.5rem; background-color: var(--rosa, #f4c6cf); background-image: repeating-linear-gradient(transparent 0 calc(1.75rem - 1px), rgb(221 154 171 / 0.45) calc(1.75rem - 1px) 1.75rem); font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; color: var(--tinta, #1c1c1f); } .ds-hoja::before { content: ''; position: absolute; inset: 0 0 auto; height: 8px; translate: 0 -4px; background: radial-gradient(circle, #b86a7e 2px, transparent 2.4px) 0 50% / 11px 8px repeat-x; } .ds-hoja__marca { position: absolute; inset: 1.4rem 1.5rem auto; display: flex; justify-content: flex-end; gap: 0.9rem; font-size: 0.75rem; line-height: 1; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; font-variation-settings: 'wdth' 90; color: var(--tinta-rosa, #6b2437); } .ds-hoja__num { color: var(--sello, #c8322b); font-variant-numeric: tabular-nums; } .ds-h2 { font-size: clamp(2rem, 1.2rem + 3vw, 3.5rem); line-height: 1; font-weight: 780; font-variation-settings: 'wdth' 72; letter-spacing: -0.02em; max-width: 16ch; }"
+    },
+    {
+      "name": "Adjunto de foto",
+      "kind": "card",
+      "refersTo": "hoja-blanca",
+      "description": "Foto sujeta a la hoja: marco blanco, sombra de papel, leve inclinación, epígrafe con rótulo.",
+      "html": "<figure class=\"ds-adjunto\"><div class=\"ds-adjunto__foto\"></div><figcaption><span class=\"ds-adjunto__rotulo\">Adjunto</span> Cocina completa <span class=\"ds-pendiente\">foto de muestra</span></figcaption></figure>",
+      "css": ".ds-adjunto { max-width: 18rem; margin: 1.5rem; padding: 0.75rem 0.75rem 0; background: #fff; box-shadow: 0 1px 2px rgb(28 28 31 / 0.12), 0 18px 40px -22px rgb(28 28 31 / 0.45); rotate: 1.25deg; font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; } .ds-adjunto__foto { aspect-ratio: 4 / 5; background: var(--rayado, #c3cedc); } .ds-adjunto figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem 0.6rem; padding: 0.7rem 0.1rem 0.8rem; font-size: 0.875rem; line-height: 1.3; font-weight: 600; color: var(--tinta, #1c1c1f); } .ds-adjunto__rotulo { font-size: 0.75rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinta-2, #55555c); } .ds-pendiente { margin-left: auto; font-size: 0.75rem; padding: 0 0.35rem; color: var(--sello, #c8322b); background: repeating-linear-gradient(-45deg, rgb(200 50 43 / 0.09) 0 6px, transparent 6px 12px); outline: 1px dashed rgb(200 50 43 / 0.45); outline-offset: 2px; }"
+    },
+    {
+      "name": "Copia con calco",
+      "kind": "card",
+      "refersTo": "rosa",
+      "description": "La copia rosa del formulario donde se calca en vivo lo escrito en el original.",
+      "html": "<div class=\"ds-copia\"><div class=\"ds-copia__cabeza\"><span>Duplicado</span><span>Así nos llega tu consulta</span></div><p class=\"ds-copia__calco\">Hola! Soy Marta, de Fisherton.\nQuiero pedir un presupuesto para: Placard.</p></div>",
+      "css": ".ds-copia { max-width: 30rem; margin: 1rem; padding: 1.75rem 1.5rem; background: var(--rosa, #f4c6cf); rotate: 0.6deg; box-shadow: 0 1px 2px rgb(107 36 55 / 0.2); font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; } .ds-copia__cabeza { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid #dd9aab; color: var(--tinta-rosa, #6b2437); font-size: 0.75rem; line-height: 1; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; } .ds-copia__calco { margin: 0.8rem 0 0; white-space: pre-line; font-family: 'Kalam', 'Segoe Print', cursive; font-size: 1.1875rem; line-height: 2rem; color: #27337a; text-shadow: 0 0 0.6px rgb(43 58 140 / 0.7); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El talonario por duplicado",
+    "overview": "Todo el sitio es un solo presupuesto de talonario, como el que un carpintero de Rosario llena con birome sobre el mostrador del taller. Lo impreso va en negro con una grotesca condensada (Archivo sobre su eje de ancho); lo que se completa a mano va en azul de carbónico (Kalam); los números de folio y el sello de goma van en rojo. Las secciones son hojas del mismo block: papel blanco con rayado azul grisáceo, y copias enteras en rosa y amarillo del duplicado y triplicado. Entre hoja y hoja hay una línea de troquel.\n\nLa densidad es la de un formulario: rótulos chicos en versalitas espaciadas, renglones con su línea, tablas con filete grueso arriba y abajo. La jerarquía se arma estrechando la letra, no agrandándola sin control. Las fotos no se muestran como banner: se \"adjuntan\" a la hoja, con marco blanco, sombra de papel y una leve inclinación. El botón principal es siempre un talón con su parte separada por troquel, y la interacción firma es arrancarlo: el formulario se calca en vivo sobre la copia rosa y, al enviar, el talón se desprende.\n\nRechazo confirmado por el contrato de dirección: la foto de living a pantalla completa con titular serif sobre fondo crema.",
+    "keyCharacteristics": [
+      "Tres tintas con roles fijos: negro impreso, azul carbónico escrito, rojo de numeradora y sello.",
+      "Secciones completas en copia rosa y amarilla; nunca como acento chico.",
+      "Jerarquía tipográfica por eje de ancho de Archivo (64 a 100).",
+      "Botón principal = talón con troquel punteado.",
+      "Fotos como adjuntos de papel inclinados, no como fondos.",
+      "Datos no confirmados marcados a la vista como pendientes, nunca inventados."
+    ],
+    "rules": [
+      {
+        "name": "La regla de las tres tintas",
+        "body": "Negro para lo impreso, azul carbónico para lo escrito y lo accionable, rojo para numeración, sello y pendientes. Ninguna tinta cambia de rol.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla de la copia entera",
+        "body": "Rosa y amarillo solo existen como hojas completas (secciones a todo el ancho o la copia del formulario). Cada copia tiñe su propio texto secundario (tinta-rosa, tinta-amarilla) y su rayado y troquel; nada de gris neutro encima de una copia.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla del ancho",
+        "body": "Cuanto más importante, más angosta: 64 para display, 72 para H2, 85 para títulos y botones, 90 para rótulos, 100 para lectura. No se sube jerarquía con otra familia.",
+        "section": "typography"
+      },
+      {
+        "name": "La regla de la birome",
+        "body": "Kalam solo para lo que una persona escribió o escribiría en el papel. Nunca en titulares, rótulos, botones ni navegación.",
+        "section": "typography"
+      },
+      {
+        "name": "La regla de la hoja",
+        "body": "Cada sección después de la portada es una hoja del mismo block: troquel punteado en su borde superior y, en el margen derecho, el folio de hoja (tipo de copia en tinta de la hoja + \"Hoja N\" en rojo, numeración correlativa). El folio es decorativo (aria-hidden), no nombra el tema de la sección y nunca se pone como introducción encima del H2.",
+        "section": "layout"
+      },
+      {
+        "name": "La regla del papel sobre papel",
+        "body": "Solo lleva sombra lo que es un papel apoyado (adjunto, original, copia) o el talón que se va a arrancar. Secciones, tablas y listas son planas y se separan con filetes y troquel.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do usar el talón (carbon, 3px, troquel punteado) para toda acción que lleve a WhatsApp.",
+      "Do dar a cada sección nueva su troquel superior y su folio \"Hoja N\" correlativo en el margen derecho.",
+      "Do cubrir hojas enteras con rosa o amarillo y teñir con su propia tinta el texto secundario, el rayado y el troquel.",
+      "Do escribir en Kalam azul solo lo completado a mano, sobre un renglón que coincida con su interlineado.",
+      "Do mostrar fotos como adjuntos con marco blanco, sombra de papel y 0.6°–2.2° de inclinación.",
+      "Do marcar todo dato no confirmado con el rayado rojo de pendiente.",
+      "Do respetar `prefers-reduced-motion`: la escritura, el sello y el arranque del talón se omiten."
+    ],
+    "donts": [
+      "Don't abrir con una foto de living a pantalla completa y titular serif sobre crema.",
+      "Don't usar rosa, amarillo o rojo como acento chico (chips, badges, fondos de tarjeta).",
+      "Don't poner Kalam en titulares, rótulos, botones o navegación.",
+      "Don't usar rojo en titulares ni el azul carbónico como color decorativo.",
+      "Don't redondear más de 3px ni redondear hojas, adjuntos o tablas.",
+      "Don't usar sombras duras desplazadas ni sombras en secciones planas.",
+      "Don't poner un rótulo de tema encima del H2; el folio de hoja no es un encabezado.",
+      "Don't inventar cifras, opiniones ni datos del negocio para llenar un hueco."
+    ]
+  }
+}

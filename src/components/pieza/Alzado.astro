@@ -1,0 +1,162 @@
+---
+import { cm } from '../../lib/formato';
+import type { Forma } from '../../lib/contenido';
+
+interface Props {
+  tipo: Forma;
+  ancho: number;
+  alto: number;
+  mueble: string;
+  // 'ilustrativo' cuando las medidas son de ejemplo
+  ilustrativo?: boolean;
+}
+const { tipo, ancho, alto, mueble, ilustrativo = false } = Astro.props;
+
+// El mueble entra en una caja de 200 × 180 respetando proporciones, apoyado en el piso
+const escala = Math.min(200 / ancho, 180 / alto);
+const w = ancho * escala;
+const h = alto * escala;
+const x = 24 + (200 - w) / 2;
+const y = 24 + (180 - h);
+const pie = y + h;
+const X = (cmX: number) => x + cmX * escala;
+const Y = (cmY: number) => y + cmY * escala;
+
+type Linea = [number, number, number, number];
+const lineas: Linea[] = [];
+const rects: { x: number; y: number; w: number; h: number }[] = [];
+// Superficies del segundo material (negro): se rellenan con un tono suave
+const llenos: string[] = [];
+const contornos: string[] = [];
+const rc = (cx: number, cy: number, cw: number, ch: number) => rects.push({ x: X(cx), y: Y(cy), w: cw * escala, h: ch * escala });
+const v = (fx: number, y1 = y, y2 = pie) => lineas.push([x + w * fx, y1, x + w * fx, y2]);
+const hz = (fy: number, x1 = x, x2 = x + w) => lineas.push([x1, y + h * fy, x2, y + h * fy]);
+const poli = (pts: [number, number][]) => 'M' + pts.map(([a, b]) => `${X(a).toFixed(2)} ${Y(b).toFixed(2)}`).join(' L') + ' Z';
+
+const piso = !['rombo'].includes(tipo);
+
+switch (tipo) {
+  case 'ese': {
+    // Vista lateral: tapa, lateral alto, estante, lateral bajo y base
+    const t = 3.2, m = alto / 2;
+    contornos.push(poli([
+      [0, 0], [ancho, 0], [ancho, t], [t, t], [t, m - t / 2], [ancho, m - t / 2], [ancho, alto],
+      [0, alto], [0, alto - t], [ancho - t, alto - t], [ancho - t, m + t / 2], [0, m + t / 2],
+    ]));
+    break;
+  }
+  case 'bicolor': {
+    const t = 2.5, ti = 1.2;
+    llenos.push(poli([[0, 0], [ancho, 0], [ancho, alto], [0, alto]]) + ' ' + poli([[t, t], [ancho - t, t], [ancho - t, alto - t], [t, alto - t]]));
+    rc(0, 0, ancho, alto);
+    rc(t, t, ancho - 2 * t, alto - 2 * t);
+    rc(t + ti, t + ti, ancho - 2 * (t + ti), alto - 2 * (t + ti));
+    lineas.push([X(t + ti), Y(alto * 0.42), X(ancho - t - ti), Y(alto * 0.42)]);
+    lineas.push([X(t + ti), Y(alto * 0.42 + 1.4), X(ancho - t - ti), Y(alto * 0.42 + 1.4)]);
+    break;
+  }
+  case 'rombo': {
+    // Marco en rombo con dos estantes que lo cruzan
+    const cx = ancho / 2, cy = alto / 2, r = alto / 2, ri = r - 3.6;
+    llenos.push(
+      poli([[cx, cy - r], [cx + r, cy], [cx, cy + r], [cx - r, cy]]) + ' ' +
+      poli([[cx, cy - ri], [cx - ri, cy], [cx, cy + ri], [cx + ri, cy]]),
+    );
+    contornos.push(poli([[cx, cy - r], [cx + r, cy], [cx, cy + r], [cx - r, cy]]));
+    contornos.push(poli([[cx, cy - ri], [cx + ri, cy], [cx, cy + ri], [cx - ri, cy]]));
+    rc(0, alto * 0.3, ancho, 2);
+    rc(0, alto * 0.7, ancho, 2);
+    break;
+  }
+  case 'nicho': {
+    const t = 2, n = ancho * 0.7;
+    rc(0, 0, ancho, t);
+    rc(0.6, t, n - 0.6, alto - t);
+    rc(ancho - t, t, t, alto - t);
+    rc(n + 0.8, alto - t, ancho - t - n - 0.8, t);
+    break;
+  }
+  case 'generica':
+    rects.push({ x, y, w, h });
+    break;
+  case 'placard':
+    rects.push({ x, y, w, h });
+    hz(0.2);
+    [0.25, 0.5, 0.75].forEach((f) => v(f));
+    [0.23, 0.27, 0.73, 0.77].forEach((f) => lineas.push([x + w * f, y + h * 0.5, x + w * f, y + h * 0.6]));
+    break;
+  case 'cocina': {
+    const base = 90 * escala;
+    const alacena = 70 * escala;
+    rects.push({ x, y: pie - base, w, h: base }, { x, y, w, h: alacena });
+    lineas.push([x - 4, pie - base, x + w + 4, pie - base]);
+    [0.25, 0.5, 0.75].forEach((f) => {
+      lineas.push([x + w * f, pie - base + 3, x + w * f, pie]);
+      lineas.push([x + w * f, y, x + w * f, y + alacena]);
+    });
+    break;
+  }
+  case 'rack':
+    rects.push({ x, y, w, h });
+    hz(0.5);
+    [0.25, 0.5, 0.75].forEach((f) => v(f));
+    break;
+  case 'biblioteca':
+    rects.push({ x, y, w, h });
+    [1, 2, 3, 4, 5].forEach((n) => v(n / 6));
+    [1, 2, 3, 4, 5].forEach((n) => hz(n / 6));
+    break;
+}
+
+const cy = pie + 20;
+const cx = x + w + 16;
+const pct = (px: number, py: number) => `left: ${(px / 264) * 100}%; top: ${(py / 250) * 100}%`;
+const uid = `${tipo}-${ancho}-${alto}`;
+---
+<div class="alzado-lienzo">
+<svg class="alzado" viewBox="0 0 264 250" role="img" aria-label={`${ilustrativo ? 'Dibujo de ejemplo' : 'Dibujo'} de ${mueble}: ${cm(ancho)} de ancho por ${cm(alto)} de alto, en centímetros`}>
+  <defs>
+    <marker id={`fl-${uid}`} viewBox="0 0 8 8" refX="4" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0.5 1 L4 4 L0.5 7" fill="none" stroke="currentColor" stroke-width="1" />
+    </marker>
+  </defs>
+  {piso && <line class="alzado__piso" x1="6" y1={pie} x2="236" y2={pie} />}
+  <g class="alzado__mueble">
+    {llenos.map((d) => <path class="alzado__lleno" d={d} fill-rule="evenodd" />)}
+    {contornos.map((d) => <path d={d} />)}
+    {rects.map((r) => <rect x={r.x} y={r.y} width={r.w} height={r.h} />)}
+    {lineas.map(([x1, y1, x2, y2]) => <line x1={x1} y1={y1} x2={x2} y2={y2} />)}
+  </g>
+  <g class="alzado__cota">
+    <line x1={x} y1={pie + 5} x2={x} y2={cy + 5} />
+    <line x1={x + w} y1={pie + 5} x2={x + w} y2={cy + 5} />
+    <line x1={x} y1={cy} x2={x + w} y2={cy} marker-start={`url(#fl-${uid})`} marker-end={`url(#fl-${uid})`} />
+    <line x1={x + w + 5} y1={y} x2={cx + 5} y2={y} />
+    <line x1={x + w + 5} y1={pie} x2={cx + 5} y2={pie} />
+    <line x1={cx} y1={y} x2={cx} y2={pie} marker-start={`url(#fl-${uid})`} marker-end={`url(#fl-${uid})`} />
+  </g>
+</svg>
+<span class="alzado__medida" style={pct(x + w / 2, cy + 13)} aria-hidden="true">{cm(ancho)} cm</span>
+<span class="alzado__medida alzado__medida--vertical" style={pct(cx + 13, y + h / 2)} aria-hidden="true">{cm(alto)} cm</span>
+</div>
+
+<style>
+  .alzado-lienzo { position: relative; color: var(--cota); }
+  .alzado__medida {
+    position: absolute;
+    translate: -50% -50%;
+    font-family: var(--f-mono);
+    font-size: 0.6875rem;
+    line-height: 1;
+    letter-spacing: 0.03em;
+    color: var(--tinta);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .alzado__medida--vertical { writing-mode: vertical-rl; }
+  .alzado { width: 100%; height: auto; overflow: visible; }
+  .alzado__piso { stroke: var(--linea-2); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .alzado__mueble :is(rect, line, path) { fill: none; stroke: var(--tinta); stroke-width: 1.15; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .alzado__mueble .alzado__lleno { fill: var(--tinta); fill-opacity: 0.14; stroke: none; }
+  .alzado__cota line { stroke: currentColor; stroke-width: 0.8; vector-effect: non-scaling-stroke; }
+</style>

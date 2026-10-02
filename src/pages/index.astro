@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Pieza.astro';
+import Barra from '../components/pieza/Barra.astro';
+import Portada from '../components/pieza/Portada.astro';
+import Promesas from '../components/pieza/Promesas.astro';
+import Catalogo from '../components/pieza/Catalogo.astro';
+import Entra from '../components/pieza/Entra.astro';
+import Como from '../components/pieza/Como.astro';
+import Trabajos from '../components/pieza/Trabajos.astro';
+import Taller from '../components/pieza/Taller.astro';
+import Opiniones from '../components/pieza/Opiniones.astro';
+import Preguntas from '../components/pieza/Preguntas.astro';
+import Contacto from '../components/pieza/Contacto.astro';
+import Pie from '../components/pieza/Pie.astro';
+import Fijo from '../components/pieza/Fijo.astro';
+---
+<Base
+  titulo="Muebles de diseño en Rosario · Fabricantes directos"
+  descripcion="Mesas, mesas de luz y estantes de diseño con sus medidas ya resueltas, fabricados en nuestro taller de Rosario y entregados en tu casa. También a medida. Consultas por WhatsApp."
+>
+  <Barra />
+  <main id="contenido">
+    <Portada />
+    <Promesas />
+    <Catalogo />
+    <Entra />
+    <Trabajos />
+    <Como />
+    <Taller />
+    <Opiniones />
+    <Preguntas />
+    <Contacto />
+  </main>
+  <Pie />
+  <Fijo />
+</Base>

@@ -1,0 +1,205 @@
+---
+import Icon from '../Icon.astro';
+import { negocio as cargarNegocio } from '../../lib/contenido';
+import { enlaceWhatsApp, pendiente } from '../../lib/formato';
+const negocio = await cargarNegocio();
+const wa = (mensaje?: string) => enlaceWhatsApp(negocio.whatsapp, mensaje);
+import { catalogo } from '../../lib/contenido';
+const OTRA_MEDIDA = 'Otro mueble, a medida';
+const tiposDeMueble = [...(await catalogo()).map((p) => p.mueble), OTRA_MEDIDA];
+---
+<section id="contacto" class="contacto fase-nogal" aria-labelledby="titulo-contacto">
+  <div class="envoltura contacto__grilla">
+    <div class="contacto__intro">
+      <h2 id="titulo-contacto">¿Ya elegiste <em>tu pieza?</em></h2>
+      <p>Contanos cuál te gustó, o mandanos la foto de lo que buscás con las medidas de tu espacio. Te pasamos un presupuesto sin compromiso.</p>
+      <dl class="contacto__datos">
+        <div>
+          <dt class="rotulo">WhatsApp</dt>
+          <dd><a class:list={{ pendiente: pendiente(negocio.whatsapp) }} href={wa()} target="_blank" rel="noopener">{negocio.telefonoVisible}</a></dd>
+        </div>
+        <div>
+          <dt class="rotulo">Email</dt>
+          <dd><a class:list={{ pendiente: pendiente(negocio.email) }} href={`mailto:${negocio.email}`}>{negocio.email}</a></dd>
+        </div>
+        <div>
+          <dt class="rotulo">Instagram</dt>
+          <dd><a class:list={{ pendiente: pendiente(negocio.instagram) }} href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener">@{negocio.instagram}</a></dd>
+        </div>
+        <div>
+          <dt class="rotulo">Taller</dt>
+          <dd><span class:list={{ pendiente: pendiente(negocio.direccion) }}>{negocio.direccion}</span>, {negocio.ciudad}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <form class="pedido" id="form-pedido" novalidate data-whatsapp={negocio.whatsapp} data-otra={OTRA_MEDIDA}>
+      <p class="pedido__titulo">Pedir presupuesto</p>
+
+      <div class="campo">
+        <label class="rotulo" for="p-nombre">Tu nombre</label>
+        <input id="p-nombre" name="nombre" type="text" autocomplete="name" required />
+      </div>
+
+      <fieldset class="campo">
+        <legend class="rotulo">¿Qué pieza te interesa?</legend>
+        <div class="tipos">
+          {tiposDeMueble.map((t) => (
+            <label class="tipo">
+              <input type="radio" name="mueble" value={t} />
+              <span>{t}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset class="campo medidas-campos">
+        <legend class="rotulo">Medidas de tu espacio (cm)</legend>
+        <div class="medidas-campos__fila">
+          <label><span class="solo-lector">Ancho en centímetros</span><input name="ancho" inputmode="decimal" placeholder="Ancho" /></label>
+          <span aria-hidden="true">×</span>
+          <label><span class="solo-lector">Alto en centímetros</span><input name="alto" inputmode="decimal" placeholder="Alto" /></label>
+          <span aria-hidden="true">×</span>
+          <label><span class="solo-lector">Profundidad en centímetros</span><input name="prof" inputmode="decimal" placeholder="Prof." /></label>
+        </div>
+      </fieldset>
+
+      <div class="campo">
+        <label class="rotulo" for="p-idea">Contanos un poco más</label>
+        <textarea id="p-idea" name="idea" rows="3" placeholder="Color, terminación, para cuándo lo necesitás…"></textarea>
+      </div>
+
+      <div class="pedido__pie">
+        <button class="boton boton--tinta" type="submit" aria-describedby="p-estado">
+          <Icon name="whatsapp" size={19} /> Enviar por WhatsApp
+        </button>
+        <p class="pedido__nota">Si tenés una foto de referencia, la adjuntás en el chat.</p>
+      </div>
+      <p class="pedido__estado" id="p-estado" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('form-pedido') as HTMLFormElement | null;
+  if (form) {
+    const estado = document.getElementById('p-estado')!;
+    const numero = form.dataset.whatsapp ?? '';
+    const otra = form.dataset.otra ?? '';
+    const valor = (n: string) => ((form.elements.namedItem(n) as HTMLInputElement | RadioNodeList | null)?.value ?? '').toString().trim();
+    form.addEventListener('input', () => { if (valor('nombre')) estado.textContent = ''; });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nombre = valor('nombre');
+      if (!nombre) {
+        estado.textContent = 'Escribí tu nombre para que sepamos a quién responder.';
+        form.querySelector<HTMLInputElement>('[name="nombre"]')?.focus();
+        return;
+      }
+      const mueble = valor('mueble');
+      const aMedida = !mueble || mueble === otra;
+      const medidas = aMedida ? [valor('ancho'), valor('alto'), valor('prof')].filter(Boolean).join(' × ') : '';
+      const idea = valor('idea');
+      const lineas = [`Hola! Soy ${nombre}.`];
+      lineas.push(aMedida ? 'Quiero pedir presupuesto para un mueble a medida.' : `Quiero pedir presupuesto por: ${mueble}.`);
+      if (medidas) lineas.push(`Medidas de mi espacio: ${medidas} cm.`);
+      if (idea) lineas.push(idea);
+      if (aMedida) lineas.push('Les mando la foto de referencia por acá.');
+      estado.textContent = 'Abriendo WhatsApp…';
+      window.location.href = `https://wa.me/${numero}?text=${encodeURIComponent(lineas.join('\n'))}`;
+    });
+  }
+</script>
+
+<style>
+  .contacto { padding-block: var(--seccion); }
+  .contacto__grilla {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: start;
+  }
+  .contacto__intro h2 { max-width: 10ch; }
+  .contacto__intro > p { margin-top: 1.75rem; color: var(--texto-nogal-2); font-size: 1.125rem; max-width: 40ch; }
+  .contacto__datos { margin-top: 2.75rem; border-top: 1px solid var(--cota-nogal); }
+  .contacto__datos div {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding-block: 0.95rem;
+    border-bottom: 1px solid var(--linea-nogal);
+  }
+  .contacto__datos dt { color: var(--cota-nogal); }
+  .contacto__datos dd { overflow-wrap: anywhere; }
+  .contacto__datos a { text-decoration: none; transition: color 0.3s var(--ease); }
+  .contacto__datos a:hover { color: var(--oro); }
+  .contacto .pendiente { text-decoration-color: #e0a58f; }
+
+  /* El formulario es la hoja clara sobre el nogal */
+  .pedido {
+    display: grid;
+    gap: 1.75rem;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    background: var(--crema);
+    color: var(--tinta);
+    border-radius: var(--radio);
+  }
+  .pedido ::selection { background: var(--tinta); color: var(--crema); }
+  .pedido__titulo { font-family: var(--f-serif); font-size: clamp(1.75rem, 1.4rem + 1vw, 2.25rem); line-height: 1.1; }
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  legend { padding: 0; }
+  .campo { display: grid; gap: 0.5rem; }
+  .campo > .rotulo, .campo > legend { color: var(--tinta-3); margin-bottom: 0.25rem; }
+  .campo input, .campo textarea {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--linea-2);
+    padding: 0.5rem 0 0.7rem;
+    font-size: 1.0625rem;
+    outline: none;
+    border-radius: 0;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .campo input:focus, .campo textarea:focus { border-bottom-color: var(--madera); box-shadow: 0 1px 0 var(--madera); }
+  .campo textarea { resize: vertical; min-height: 5.5rem; line-height: 1.5; }
+  .pedido ::placeholder { color: #8f806f; opacity: 1; }
+
+  .tipos { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tipo { position: relative; }
+  .tipo input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+  .tipo span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.05rem;
+    border: 1px solid var(--linea-2);
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .tipo:hover span { border-color: var(--tinta); }
+  .tipo input:checked + span { background: var(--tinta); color: var(--crema); border-color: var(--tinta); }
+  .tipo input:focus-visible + span { outline: 1.5px solid var(--tinta); outline-offset: 3px; }
+
+  /* Las medidas solo se piden cuando el mueble es a medida */
+  .medidas-campos { display: none; }
+  .pedido:has(input[name='mueble'][value='Otro mueble, a medida']:checked) .medidas-campos { display: grid; }
+  .medidas-campos__fila { display: flex; align-items: baseline; gap: 0.75rem; color: var(--tinta-3); }
+  .medidas-campos__fila label { flex: 1; min-width: 0; }
+  .medidas-campos__fila input { font-family: var(--f-mono); font-size: 0.9375rem; font-variant-numeric: tabular-nums; }
+
+  .pedido__pie { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 0.25rem; }
+  .pedido__nota { font-size: 0.9375rem; color: var(--tinta-3); max-width: 28ch; }
+  .pedido__estado { min-height: 1.5rem; font-size: 0.9375rem; color: #8a3b2c; margin-top: -1rem; }
+
+  @media (max-width: 900px) {
+    .contacto__grilla { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .pedido__pie .boton { width: 100%; }
+    .contacto__datos div { grid-template-columns: 1fr; gap: 0.2rem; }
+  }
+</style>

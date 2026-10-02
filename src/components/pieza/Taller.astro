@@ -1,0 +1,84 @@
+---
+import { Image } from 'astro:assets';
+import { negocio as cargarNegocio } from '../../lib/contenido';
+import { pendiente } from '../../lib/formato';
+const negocio = await cargarNegocio();
+
+// Datos tomados de la propuesta original del cliente
+const datos = [
+  { rotulo: 'Taller', valor: `Propio, en ${negocio.ciudad}` },
+  { rotulo: 'Fabricación', valor: 'Maquinaria profesional y terminaciones a mano' },
+  { rotulo: 'Entrega', valor: 'Armado e instalación en tu casa' },
+];
+---
+<section id="taller" class="taller fase-nogal" aria-labelledby="titulo-taller">
+  <div class="envoltura taller__grilla">
+    <figure class="taller__foto">
+      {negocio.videoTaller ? (
+        <video src={negocio.videoTaller} controls playsinline preload="metadata" poster={negocio.fotoTaller.src}>Video del taller</video>
+      ) : (
+        <Image src={negocio.fotoTaller} alt="El taller" widths={[500, 900, 1300]} sizes="(max-width: 900px) 100vw, 42vw" />
+      )}
+      {!negocio.videoTaller && negocio.fotoTallerMuestra && <figcaption class="rotulo muestra">Muestra · video del taller pendiente</figcaption>}
+    </figure>
+
+    <div class="taller__texto">
+      <h2 id="titulo-taller">Oficio de siempre, <em>precisión</em> de hoy.</h2>
+      <p>
+        Sin intermediarios: el mismo equipo que te asesora es el que fabrica cada pieza en nuestro taller de {negocio.ciudad} y el que la arma en tu casa. De la charla a la instalación, un solo taller.
+      </p>
+      <dl class="taller__datos">
+        {datos.map((d) => (
+          <div>
+            <dt class="rotulo">{d.rotulo}</dt>
+            <dd>{d.valor}</dd>
+          </div>
+        ))}
+        <div>
+          <dt class="rotulo">Dirección</dt>
+          <dd><span class:list={{ pendiente: pendiente(negocio.direccion) }}>{negocio.direccion}</span></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .taller { padding-block: var(--seccion); }
+  .taller__grilla {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: center;
+  }
+  .taller__foto {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    max-height: 40rem;
+    overflow: hidden;
+    border-radius: var(--radio);
+    background: var(--nogal-2);
+  }
+  .taller__foto :is(img, video) { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.85) contrast(1.03); }
+  .taller__texto h2 { max-width: 12ch; }
+  .taller__texto > p { margin-top: 1.75rem; color: var(--texto-nogal-2); font-size: 1.125rem; line-height: 1.7; max-width: 46ch; }
+  .taller__datos { margin-top: 2.5rem; border-top: 1px solid var(--cota-nogal); }
+  .taller__datos div {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid var(--linea-nogal);
+  }
+  .taller__datos dt { color: var(--cota-nogal); }
+  .taller .pendiente { text-decoration-color: #e0a58f; }
+
+  @media (max-width: 900px) {
+    .taller__grilla { grid-template-columns: 1fr; }
+    .taller__foto { aspect-ratio: 4 / 3; max-height: none; }
+  }
+  @media (max-width: 480px) {
+    .taller__datos div { grid-template-columns: 1fr; gap: 0.2rem; }
+  }
+</style>

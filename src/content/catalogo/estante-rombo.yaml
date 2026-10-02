@@ -1,0 +1,12 @@
+mueble: "Estante rombo"
+orden: 30
+foto: "../../assets/catalogo/estante-rombo/foto.jpg"
+alt: "Estante de pared con marco negro en forma de rombo y dos estantes de pino, con sus medidas marcadas"
+encuadre: "centro"
+muestra: true
+ambiente: "Pared"
+terminacion: "Negro y pino"
+ancho: 30
+alto: 27.5
+prof: 8
+forma: "rombo"

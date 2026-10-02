@@ -1,0 +1,61 @@
+---
+import { opiniones as cargarOpiniones } from '../../lib/contenido';
+const opiniones = await cargarOpiniones();
+---
+{opiniones.length > 0 && (
+<section class="opiniones" aria-labelledby="titulo-opiniones">
+  <div class="envoltura">
+    <div class="cabecera">
+      <h2 id="titulo-opiniones">Lo que dicen <em>en casa.</em></h2>
+    </div>
+    <ul class="citas">
+      {opiniones.map((o) => (
+        <li class:list={['cita', { 'cita--pendiente': o.pendiente }]}>
+          <blockquote><p>“{o.texto}”</p></blockquote>
+          <p class="cita__autor"><span>{o.nombre}</span> <span class="cita__mueble">{o.mueble}</span></p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+)}
+
+<style>
+  .opiniones { padding-block: var(--seccion); }
+  .citas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    list-style: none;
+    padding: 0;
+  }
+  .cita {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--tinta);
+  }
+  blockquote p {
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: clamp(1.3125rem, 1.15rem + 0.5vw, 1.625rem);
+    line-height: 1.35;
+    color: var(--tinta-2);
+  }
+  .cita__autor {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--linea);
+    font-weight: 600;
+  }
+  .cita__mueble { font-weight: 400; color: var(--madera); }
+  .cita--pendiente blockquote p, .cita--pendiente .cita__autor > span:first-child { color: #8a3b2c; }
+
+  @media (max-width: 900px) {
+    .citas { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,12 @@
+mueble: "Mesa de luz bicolor"
+orden: 10
+foto: "../../assets/catalogo/mesa-de-luz-bicolor/foto.jpg"
+alt: "Mesa de luz negra con interior de roble y un estante, al lado de un sillón"
+encuadre: "centro"
+muestra: true
+ambiente: "Dormitorio"
+terminacion: "Negro y roble"
+ancho: 50
+alto: 50
+prof: 35
+forma: "bicolor"

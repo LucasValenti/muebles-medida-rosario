@@ -1,0 +1,5 @@
+nombre: "[Nombre del cliente]"
+orden: 10
+texto: "[Opinión real del cliente: qué mueble le hicieron y qué le gustó del trabajo]"
+mueble: "[Mueble]"
+pendiente: true

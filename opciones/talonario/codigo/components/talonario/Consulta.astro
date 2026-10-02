@@ -1,0 +1,381 @@
+---
+import Icon from '../Icon.astro';
+import { tiposDeMueble } from '../../data/contenido';
+import { negocio, pendiente } from '../../data/negocio';
+---
+<section id="presupuesto" class="consulta hoja" aria-labelledby="titulo-consulta">
+  <p class="hoja__marca envoltura" aria-hidden="true"><span class="rotulo">Pedido</span><span class="rotulo hoja__num">Hoja 7</span></p>
+  <div class="envoltura consulta__grilla">
+    <div class="consulta__intro">
+      <h2 id="titulo-consulta">¿Tenés un proyecto en mente?</h2>
+      <p>Contanos tu idea, mandanos una foto y las medidas. Te pasamos un presupuesto sin compromiso.</p>
+
+      <dl class="directo">
+        <div>
+          <dt class="rotulo">Teléfono</dt>
+          <dd><a class:list={['num', { pendiente: pendiente(negocio.telefonoVisible) }]} href={`tel:${negocio.telefono}`}>{negocio.telefonoVisible}</a></dd>
+        </div>
+        <div>
+          <dt class="rotulo">Email</dt>
+          <dd><a class:list={{ pendiente: pendiente(negocio.email) }} href={`mailto:${negocio.email}`}>{negocio.email}</a></dd>
+        </div>
+        <div>
+          <dt class="rotulo">Taller</dt>
+          <dd><span class:list={{ pendiente: pendiente(negocio.direccion) }}>{negocio.direccion}</span>, {negocio.ciudad}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="pila">
+      <form class="original" id="form-presupuesto" novalidate data-whatsapp={negocio.whatsapp}>
+        <div class="original__cabeza">
+          <span class="original__titulo">Pedido de presupuesto</span>
+          <span class="rotulo">Original</span>
+        </div>
+
+        <div class="linea">
+          <label class="rotulo" for="c-nombre">Señor/es</label>
+          <input id="c-nombre" name="nombre" type="text" autocomplete="name" required placeholder="Tu nombre" />
+        </div>
+        <div class="linea">
+          <label class="rotulo" for="c-barrio">Domicilio</label>
+          <input id="c-barrio" name="barrio" type="text" autocomplete="address-level2" placeholder="Barrio o localidad" />
+        </div>
+
+        <fieldset class="tipos">
+          <legend class="rotulo">¿Qué mueble necesitás?</legend>
+          <div class="tipos__opciones">
+            {tiposDeMueble.map((t) => (
+              <label class="tipo">
+                <input type="radio" name="mueble" value={t} required />
+                <span class="tipo__caja" aria-hidden="true"><Icon name="Check" size={16} /></span>
+                <span>{t}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset class="medidas">
+          <legend class="rotulo">Medidas aproximadas (cm)</legend>
+          <div class="medidas__campos">
+            <label><span class="solo-lector">Ancho en centímetros</span><input name="ancho" inputmode="decimal" placeholder="ancho" /></label>
+            <span aria-hidden="true">×</span>
+            <label><span class="solo-lector">Alto en centímetros</span><input name="alto" inputmode="decimal" placeholder="alto" /></label>
+            <span aria-hidden="true">×</span>
+            <label><span class="solo-lector">Profundidad en centímetros</span><input name="prof" inputmode="decimal" placeholder="prof." /></label>
+          </div>
+        </fieldset>
+
+        <div class="linea linea--area">
+          <label class="rotulo" for="c-idea">Descripción</label>
+          <textarea id="c-idea" name="idea" rows="3" placeholder="Contanos tu idea: colores, materiales, para qué lo vas a usar…"></textarea>
+        </div>
+
+        <p class="original__nota">
+          <Icon name="Paperclip" size={16} /> Las fotos o capturas las mandás en el chat de WhatsApp.
+        </p>
+
+        <div class="arrancar">
+          <div class="troquel" aria-hidden="true"></div>
+          <button class="talon arrancar__boton" type="submit" aria-describedby="c-estado">
+            <span class="talon__talonario"><Icon name="whatsapp" size={22} /></span>
+            <span class="talon__texto">Arrancar y enviar por WhatsApp</span>
+          </button>
+          <p class="arrancar__estado" id="c-estado" aria-live="polite"></p>
+        </div>
+      </form>
+
+      <div class="copia" aria-hidden="true">
+        <div class="copia__cabeza">
+          <span class="rotulo">Duplicado</span>
+          <span class="rotulo">Así nos llega tu consulta</span>
+        </div>
+        <p class="copia__calco mano" data-calco></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('form-presupuesto') as HTMLFormElement | null;
+  if (form) {
+    const calco = document.querySelector<HTMLElement>('[data-calco]')!;
+    const estado = document.getElementById('c-estado')!;
+    const numero = form.dataset.whatsapp ?? '';
+    const valor = (n: string) => ((form.elements.namedItem(n) as HTMLInputElement | RadioNodeList | null)?.value ?? '').toString().trim();
+
+    const mensaje = () => {
+      const nombre = valor('nombre');
+      const barrio = valor('barrio');
+      const mueble = valor('mueble');
+      const medidas = [valor('ancho'), valor('alto'), valor('prof')].filter(Boolean).join(' × ');
+      const idea = valor('idea');
+      const lineas = [
+        `Hola! Soy ${nombre || '…'}${barrio ? `, de ${barrio}` : ''}.`,
+        `Quiero pedir un presupuesto para: ${mueble || '…'}.`,
+      ];
+      if (medidas) lineas.push(`Medidas aproximadas: ${medidas} cm.`);
+      if (idea) lineas.push(idea);
+      lineas.push('Te mando fotos por acá.');
+      return lineas.join('\n');
+    };
+
+    const faltantes = () => {
+      const f: string[] = [];
+      if (!valor('nombre')) f.push('tu nombre');
+      if (!valor('mueble')) f.push('qué mueble necesitás');
+      return f;
+    };
+
+    const actualizar = () => {
+      calco.textContent = mensaje();
+      const f = faltantes();
+      form.classList.toggle('completo', f.length === 0);
+    };
+
+    form.addEventListener('input', () => {
+      actualizar();
+      if (estado.textContent && faltantes().length === 0) estado.textContent = '';
+    });
+    actualizar();
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = faltantes();
+      if (f.length) {
+        estado.textContent = `Para arrancar el talón falta: ${f.join(' y ')}.`;
+        const primero = !valor('nombre')
+          ? form.querySelector<HTMLInputElement>('[name="nombre"]')
+          : form.querySelector<HTMLInputElement>('[name="mueble"]');
+        primero?.focus();
+        return;
+      }
+      const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje())}`;
+      const reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      estado.textContent = 'Abriendo WhatsApp…';
+      if (reducido) {
+        window.location.href = url;
+        return;
+      }
+      form.classList.add('arrancado');
+      window.setTimeout(() => {
+        form.classList.remove('arrancado');
+        estado.textContent = '¡Listo! Si no se abrió WhatsApp, tocá el botón de nuevo.';
+        window.location.href = url;
+      }, 650);
+    });
+  }
+</script>
+
+<style>
+  .consulta {
+    padding-block: var(--seccion) calc(var(--seccion) + 1rem);
+  }
+  .consulta__grilla {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .consulta__intro { position: sticky; top: 6.5rem; }
+  .consulta__intro h2 { max-width: 11ch; }
+  .consulta__intro > p {
+    margin-top: 1.5rem;
+    font-size: 1.1875rem;
+    line-height: 1.65;
+    color: var(--tinta-2);
+    max-width: 38ch;
+  }
+  .directo { margin-top: 2.5rem; border-top: 2px solid var(--tinta); }
+  .directo > div {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 0.85rem;
+    border-bottom: 1px solid var(--rayado-fuerte);
+  }
+  .directo dt { color: var(--tinta-2); }
+  .directo dd { font-weight: 600; overflow-wrap: anywhere; }
+  .directo a { text-decoration: none; }
+  .directo a:hover { text-decoration: underline; }
+
+  /* Pila: original blanco encima de la copia rosa */
+  .pila { position: relative; }
+  .original {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    padding: clamp(1.25rem, 3vw, 2.25rem) clamp(1.25rem, 3vw, 2.25rem) 0;
+    box-shadow: 0 1px 2px rgb(28 28 31 / 0.12), 0 24px 50px -30px rgb(28 28 31 / 0.5);
+    transition: box-shadow 0.3s;
+  }
+  .original__cabeza {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.9rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid var(--tinta);
+  }
+  .original__titulo {
+    font-weight: 800;
+    font-variation-settings: 'wdth' 75;
+    font-size: 1.375rem;
+    line-height: 1.1;
+  }
+  .original__cabeza .rotulo { color: var(--tinta-2); }
+
+  .linea {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    border-bottom: 1px solid var(--rayado-fuerte);
+    padding-top: 0.9rem;
+    transition: border-color 0.2s;
+  }
+  .linea:focus-within { border-bottom-color: var(--carbon); box-shadow: 0 1px 0 var(--carbon); }
+  .linea .rotulo { flex: none; color: var(--tinta-2); min-width: 5.5rem; }
+  .linea input, .linea textarea, .medidas input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    font-family: var(--f-mano);
+    color: var(--carbon);
+    font-size: 1.375rem;
+    line-height: 2.5rem;
+    padding: 0;
+    outline: none;
+  }
+  .linea--area { align-items: start; }
+  .linea--area .rotulo { padding-top: 0.9rem; }
+  .linea textarea {
+    resize: vertical;
+    min-height: 7.5rem;
+    background: repeating-linear-gradient(transparent 0 calc(2.5rem - 1px), var(--rayado) calc(2.5rem - 1px) 2.5rem);
+    background-attachment: local;
+  }
+  ::placeholder { color: #6b6b73; font-family: var(--f-mano); opacity: 1; }
+
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  legend { padding: 0; }
+  .tipos { padding-top: 1.25rem; }
+  .tipos legend, .medidas legend { color: var(--tinta-2); margin-bottom: 0.8rem; }
+  .tipos__opciones { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tipo {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.75rem;
+    padding: 0.4rem 0.9rem 0.4rem 0.6rem;
+    border: 1.5px solid var(--rayado-fuerte);
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 600;
+    font-variation-settings: 'wdth' 88;
+    line-height: 1.2;
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+  .tipo:hover { border-color: var(--tinta); }
+  .tipo input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .tipo__caja {
+    display: grid;
+    place-items: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 1.5px solid var(--tinta);
+    color: transparent;
+    transition: color 0.15s;
+  }
+  .tipo:has(input:checked) { border-color: var(--carbon); background: rgb(43 58 140 / 0.06); }
+  .tipo:has(input:checked) .tipo__caja { color: var(--carbon); border-color: var(--carbon); }
+  .tipo:has(input:focus-visible) { outline: 2px solid var(--carbon); outline-offset: 3px; }
+
+  .medidas { padding-top: 1.25rem; }
+  .medidas__campos { display: flex; align-items: baseline; gap: 0.6rem; color: var(--tinta-2); }
+  .medidas label { flex: 1; min-width: 0; border-bottom: 1px solid var(--rayado-fuerte); }
+  .medidas label:focus-within { border-bottom-color: var(--carbon); }
+  .medidas input { width: 100%; font-variant-numeric: tabular-nums; }
+
+  .original__nota {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 1rem;
+    font-size: var(--t-small);
+    color: var(--tinta-2);
+  }
+
+  /* El talón que se arranca por el troquel */
+  .arrancar {
+    margin: 1.5rem calc(-1 * clamp(1.25rem, 3vw, 2.25rem)) 0;
+    padding: 1.1rem clamp(1.25rem, 3vw, 2.25rem) clamp(1.25rem, 3vw, 1.75rem);
+    background: #fff;
+    position: relative;
+    transform-origin: 0 0;
+  }
+  .arrancar .troquel { position: absolute; inset: 0 0 auto; }
+  .arrancar__boton { width: 100%; }
+  .arrancar__boton .talon__texto { flex: 1; }
+  .original:not(.completo) .arrancar__boton { --talon-fondo: #6b72a3; box-shadow: none; }
+  .arrancar__estado {
+    margin-top: 0.7rem;
+    min-height: 1.5rem;
+    font-size: var(--t-small);
+    font-weight: 600;
+    color: var(--sello);
+  }
+  .original.completo .arrancar__estado { color: var(--carbon); }
+  @media (prefers-reduced-motion: no-preference) {
+    .original.arrancado .arrancar {
+      animation: arrancar 0.65s cubic-bezier(0.5, 0, 0.75, 0) both;
+    }
+  }
+  @keyframes arrancar {
+    0% { transform: none; }
+    25% { transform: rotate(-1.5deg) translateY(2px); }
+    100% { transform: translate(-3%, 120%) rotate(7deg); opacity: 0; }
+  }
+
+  .copia {
+    position: relative;
+    z-index: 1;
+    margin: -1.5rem -0.9rem 0 0.9rem;
+    padding: 2.6rem clamp(1.25rem, 3vw, 2.25rem) 1.75rem;
+    background: var(--rosa);
+    rotate: 0.6deg;
+    box-shadow: 0 1px 2px rgb(107 36 55 / 0.2);
+  }
+  .copia__cabeza {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--tinta-rosa);
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #dd9aab;
+  }
+  .copia__calco {
+    margin-top: 0.8rem;
+    white-space: pre-line;
+    font-size: 1.1875rem;
+    line-height: 2rem;
+    color: #27337a;
+    text-shadow: 0 0 0.6px rgb(43 58 140 / 0.7);
+    min-height: 6rem;
+    max-width: none;
+  }
+
+  @media (max-width: 900px) {
+    .consulta__grilla { grid-template-columns: 1fr; }
+    .consulta__intro { position: static; }
+  }
+  @media (max-width: 520px) {
+    .linea { flex-wrap: wrap; gap: 0; }
+    .linea .rotulo { min-width: 100%; }
+    .linea--area .rotulo { padding-top: 0; }
+    .copia { margin-right: -0.5rem; margin-left: 0.5rem; }
+  }
+</style>

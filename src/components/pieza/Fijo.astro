@@ -1,0 +1,40 @@
+---
+import Icon from '../Icon.astro';
+import { negocio as cargarNegocio } from '../../lib/contenido';
+import { enlaceWhatsApp, pendiente } from '../../lib/formato';
+const negocio = await cargarNegocio();
+const wa = (mensaje?: string) => enlaceWhatsApp(negocio.whatsapp, mensaje);
+---
+<div class="fijo" data-fijo>
+  <a class="boton boton--tinta" href={wa()} target="_blank" rel="noopener">
+    <Icon name="whatsapp" size={19} /> Consultar por WhatsApp
+  </a>
+</div>
+
+<script>
+  const fijo = document.querySelector<HTMLElement>('[data-fijo]');
+  const destinos = document.querySelectorAll('.portada__acciones, #contacto');
+  if (fijo && 'IntersectionObserver' in window) {
+    const visibles = new Set<Element>();
+    const io = new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => (e.isIntersecting ? visibles.add(e.target) : visibles.delete(e.target)));
+      fijo.classList.toggle('oculto', visibles.size > 0);
+    });
+    destinos.forEach((d) => io.observe(d));
+  }
+</script>
+
+<style>
+  .fijo { display: none; }
+  @media (max-width: 640px) {
+    .fijo {
+      display: block;
+      position: fixed;
+      inset: auto var(--gutter) calc(0.9rem + env(safe-area-inset-bottom));
+      z-index: 50;
+      transition: translate 0.5s var(--ease), opacity 0.3s;
+    }
+    .fijo .boton { width: 100%; justify-content: center; box-shadow: 0 12px 30px -10px rgb(35 29 23 / 0.5); }
+    .fijo.oculto { translate: 0 150%; opacity: 0; }
+  }
+</style>

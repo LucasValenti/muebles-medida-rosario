@@ -1,0 +1,46 @@
+---
+import { negocio as cargarNegocio } from '../../lib/contenido';
+const negocio = await cargarNegocio();
+
+const promesas = [
+  { titulo: 'Medidas resueltas', texto: 'Cada pieza tiene sus medidas definidas: antes de pedirla sabés cuánto ocupa en tu casa.' },
+  { titulo: 'Taller propio', texto: `Taller propio en ${negocio.ciudad}, con maquinaria profesional y terminaciones a mano.` },
+  { titulo: 'Entrega y armado', texto: 'Coordinamos materiales, entrega y armado. Vos solo elegís dónde va.' },
+];
+---
+<section class="promesas" aria-label="Lo que hacemos">
+  <ul class="envoltura promesas__fila">
+    {promesas.map((p) => (
+      <li>
+        <h3>{p.titulo}</h3>
+        <p>{p.texto}</p>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .promesas { border-block: 1px solid var(--linea); }
+  .promesas__fila {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    padding: clamp(2rem, 3.5vw, 3rem) clamp(1.25rem, 3vw, 2.75rem);
+    border-left: 1px solid var(--linea);
+  }
+  li:first-child { border-left: 0; padding-left: 0; }
+  li:last-child { padding-right: 0; }
+  p { color: var(--tinta-2); font-size: 1rem; max-width: 34ch; }
+
+  @media (max-width: 760px) {
+    .promesas__fila { grid-template-columns: 1fr; }
+    li, li:first-child, li:last-child { padding: 1.75rem 0; border-left: 0; border-top: 1px solid var(--linea); }
+    li:first-child { border-top: 0; }
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Talonario.astro';
+import Barra from '../components/talonario/Barra.astro';
+import Portada from '../components/talonario/Portada.astro';
+import Trabajos from '../components/talonario/Trabajos.astro';
+import Taller from '../components/talonario/Taller.astro';
+import Proceso from '../components/talonario/Proceso.astro';
+import Opiniones from '../components/talonario/Opiniones.astro';
+import Preguntas from '../components/talonario/Preguntas.astro';
+import Consulta from '../components/talonario/Consulta.astro';
+import Pie from '../components/talonario/Pie.astro';
+import TalonFijo from '../components/talonario/TalonFijo.astro';
+---
+<Base
+  titulo="Muebles a medida en Rosario · Carpintería"
+  descripcion="Carpintería en Rosario: diseñamos, fabricamos e instalamos placares, cocinas, mesas y muebles de living a medida. Pedí tu presupuesto sin compromiso por WhatsApp."
+>
+  <Barra />
+  <main id="contenido">
+    <Portada />
+    <Trabajos />
+    <Taller />
+    <Proceso />
+    <Opiniones />
+    <Preguntas />
+    <Consulta />
+  </main>
+  <Pie />
+  <TalonFijo />
+</Base>

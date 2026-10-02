@@ -1,0 +1,60 @@
+---
+import { pasos as cargarPasos } from '../../lib/contenido';
+const pasos = await cargarPasos();
+---
+{pasos.length > 0 && (
+<section id="como" class="como" aria-labelledby="titulo-como">
+  <div class="envoltura">
+    <div class="cabecera">
+      <h2 id="titulo-como">De la ficha <em>a tu casa.</em></h2>
+      <p>Con o sin medida especial, te acompañamos en cada paso por WhatsApp.</p>
+    </div>
+    <ol class="pasos">
+      {pasos.map((p, i) => (
+        <li>
+          <span class="pasos__numero" aria-hidden="true">{i + 1}</span>
+          <h3>{p.titulo}</h3>
+          <p>{p.texto}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+)}
+
+<style>
+  .como { padding-block: var(--seccion); }
+  .pasos {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: clamp(1.5rem, 3vw, 2.5rem);
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--linea-2);
+  }
+  li { display: grid; align-content: start; gap: 0.85rem; padding-top: 2rem; }
+  .pasos__numero {
+    font-family: var(--f-serif);
+    font-size: clamp(4rem, 3rem + 3vw, 5.5rem);
+    line-height: 0.9;
+    color: var(--madera);
+    font-variant-numeric: lining-nums;
+  }
+  h3 { font-size: clamp(1.375rem, 1.2rem + 0.5vw, 1.625rem); margin-top: 0.5rem; }
+  li p { color: var(--tinta-2); font-size: 1rem; max-width: 30ch; }
+
+  @media (max-width: 1000px) {
+    .pasos { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1rem; }
+  }
+  @media (max-width: 520px) {
+    .pasos { grid-template-columns: 1fr; border-top: 0; }
+    li {
+      grid-template-columns: 3.5rem 1fr;
+      column-gap: 1rem;
+      padding-block: 1.5rem;
+      border-top: 1px solid var(--linea-2);
+    }
+    .pasos__numero { grid-row: span 2; font-size: 3.25rem; }
+    h3 { margin-top: 0.25rem; }
+  }
+</style>

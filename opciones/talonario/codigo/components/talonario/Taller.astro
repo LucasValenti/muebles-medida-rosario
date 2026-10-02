@@ -1,0 +1,96 @@
+---
+import { negocio } from '../../data/negocio';
+---
+<section id="taller" class="taller hoja hoja--rayada" aria-labelledby="titulo-taller">
+  <p class="hoja__marca envoltura" aria-hidden="true"><span class="rotulo">Duplicado</span><span class="rotulo hoja__num">Hoja 3</span></p>
+  <div class="envoltura taller__grilla">
+    <div class="taller__texto">
+      <h2 id="titulo-taller">Oficio de siempre, precisión de hoy.</h2>
+      <p>
+        Cada proyecto empieza con una charla y termina con el mueble instalado en tu casa. Trabajamos en nuestro taller de Rosario, combinando herramientas modernas con terminaciones hechas a mano, para que cada pieza dure muchos años.
+      </p>
+    </div>
+
+    <div class="taller__fotos">
+      <figure class="taller__principal">
+        {negocio.videoTaller ? (
+          <video src={negocio.videoTaller} controls playsinline preload="metadata" poster="/fotos/muestra/taller.jpg">
+            Video del taller
+          </video>
+        ) : (
+          <img src="/fotos/muestra/taller.jpg" alt="Carpintero trabajando con una máquina en el taller" loading="lazy" decoding="async" width="1600" height="1067" />
+        )}
+        <figcaption>
+          <span class="rotulo">Adjunto</span> {negocio.videoTaller ? 'Video del taller' : 'El taller'}
+          {!negocio.videoTaller && <span class="pendiente taller__pendiente">foto de muestra · video pendiente</span>}
+        </figcaption>
+      </figure>
+      <figure class="taller__detalle">
+        <img src="/fotos/muestra/manos.jpg" alt="Mano marcando una tabla con lápiz y cinta métrica" loading="lazy" decoding="async" width="1600" height="1067" />
+      </figure>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .taller {
+    background-color: var(--rosa);
+    padding-block: var(--seccion);
+    --rayado-copia: #dd9aab;
+    --hoja-rayado: rgb(221 154 171 / 0.45);
+    --hoja-marca: var(--tinta-rosa);
+    --hoja-troquel: #b86a7e;
+  }
+  .taller ::selection { background: var(--tinta-rosa); color: var(--rosa); }
+
+  .taller__grilla {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .taller__texto { position: sticky; top: 6.5rem; }
+  .taller__texto p {
+    margin-top: 1.5rem;
+    font-size: 1.1875rem;
+    line-height: 1.7;
+    color: var(--tinta-rosa);
+  }
+
+  .taller__fotos { position: relative; padding-bottom: clamp(3rem, 8vw, 6rem); }
+  .taller__principal, .taller__detalle {
+    background: #fff;
+    padding: 0.65rem;
+    box-shadow: 0 1px 2px rgb(107 36 55 / 0.18), 0 22px 40px -24px rgb(107 36 55 / 0.55);
+  }
+  .taller__principal { rotate: -0.8deg; }
+  .taller__principal img, .taller__principal video { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; background: #000; }
+  .taller__principal figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.6rem;
+    align-items: baseline;
+    padding: 0.65rem 0.1rem 0.25rem;
+    font-size: var(--t-small);
+    line-height: 1.3;
+    font-weight: 600;
+  }
+  .taller__principal figcaption .rotulo { color: var(--tinta-2); }
+  .taller__pendiente { margin-left: auto; font-size: 0.75rem; color: var(--sello); padding-inline: 0.35rem; }
+
+  .taller__detalle {
+    position: absolute;
+    right: clamp(-1rem, -2vw, 0rem);
+    bottom: 0;
+    width: 44%;
+    rotate: 2.2deg;
+  }
+  .taller__detalle img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+
+
+  @media (max-width: 900px) {
+    .taller__grilla { grid-template-columns: 1fr; }
+    .taller__texto { position: static; }
+  }
+</style>

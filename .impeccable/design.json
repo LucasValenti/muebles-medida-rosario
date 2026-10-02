@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-30T00:00:00Z",
+  "title": "Design System: La referencia y la pieza",
+  "extensions": {
+    "colorMeta": {
+      "noche": { "role": "neutral", "displayName": "Noche de pantalla", "canonical": "#0e1012", "tonalRamp": ["#090b0d","#242729","#434548","#646669","#87898c","#abaeb1","#ced1d4","#eceff2"] },
+      "grafito": { "role": "neutral", "displayName": "Grafito", "canonical": "#1a1d21", "tonalRamp": ["#090b0f","#24272b","#42454a","#63666b","#86898f","#aaaeb4","#cdd1d7","#ebeff5"] },
+      "dia": { "role": "neutral", "displayName": "Luz de día", "canonical": "#f3f3f1", "tonalRamp": ["#0b0b0a","#262625","#454543","#666664","#898987","#aeaeac","#d1d1cf","#eeeeec"] },
+      "verde": { "role": "primary", "displayName": "Laca verde inglés", "canonical": "#1e3b2f", "tonalRamp": ["#001007","#102d21","#2f4c40","#506e60","#729283","#96b7a8","#b9daca","#d6f8e8"] },
+      "texto-noche": { "role": "neutral", "displayName": "Hueso sobre noche", "canonical": "#ebe9e4", "tonalRamp": ["#0c0b08","#282623","#464541","#686662","#8b8984","#b0aea9","#d3d1cc","#f0eee9"] },
+      "texto-noche-2": { "role": "neutral", "displayName": "Gris niebla", "canonical": "#9ea2a8", "tonalRamp": ["#090b0f","#24272b","#42454a","#63666c","#86898f","#aaaeb4","#cdd1d8","#eaeff5"] },
+      "linea-noche": { "role": "neutral", "displayName": "Filete nocturno", "canonical": "#2d3137", "tonalRamp": ["#080b10","#23272c","#41454c","#62666d","#858991","#a9aeb6","#ccd1d9","#eaeff7"] },
+      "cota": { "role": "neutral", "displayName": "Arena de cota", "canonical": "#c9c4ba", "tonalRamp": ["#0e0b05","#2a261e","#49453c","#6a665d","#8d897f","#b2ada4","#d5d0c6","#f3eee4"] },
+      "tinta": { "role": "neutral", "displayName": "Tinta", "canonical": "#121417", "tonalRamp": ["#090b0e","#24272a","#434549","#64666a","#87898d","#abaeb2","#ced1d5","#eceff3"] },
+      "tinta-2": { "role": "neutral", "displayName": "Tinta suave", "canonical": "#565a60", "tonalRamp": ["#080b10","#23272c","#41454b","#62666c","#858990","#aaaeb5","#cdd1d8","#eaeff6"] },
+      "linea-dia": { "role": "neutral", "displayName": "Filete de día", "canonical": "#d5d4cf", "tonalRamp": ["#0c0b08","#272623","#464541","#676662","#8a8985","#afaea9","#d2d1cc","#f0efe9"] },
+      "texto-verde": { "role": "neutral", "displayName": "Claro sobre verde", "canonical": "#e3ebe6", "tonalRamp": ["#080d09","#222824","#404743","#616864","#848b87","#a8b0ab","#cbd3ce","#e9f1ec"] },
+      "texto-verde-2": { "role": "neutral", "displayName": "Salvia", "canonical": "#a8c1b4", "tonalRamp": ["#000f07","#172c22","#354b40","#556c61","#789083","#9cb5a8","#bfd8cb","#dcf6e8"] },
+      "linea-verde": { "role": "neutral", "displayName": "Filete verde", "canonical": "#37574a", "tonalRamp": ["#001107","#0d2d22","#2d4d40","#4e6e61","#709284","#94b7a8","#b7dbcb","#d4f8e8"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Solo el titular de portada." },
+      "headline": { "displayName": "Título de sección", "purpose": "Títulos de sección, con ancho máximo de 9–13ch." },
+      "title": { "displayName": "Subtítulo", "purpose": "Pasos, pies de díptico; en contexto baja a 350–400 de peso." },
+      "body": { "displayName": "Cuerpo", "purpose": "Texto corrido, máx. 62ch." },
+      "label": { "displayName": "Rótulo", "purpose": "Medidas, índices y estados en mono mayúscula; nunca antetítulos." },
+      "medida": { "displayName": "Medida", "purpose": "Textos de cota como span HTML sobre SVG; 0.625rem en celular." }
+    },
+    "shadows": [
+      { "name": "halo-pantalla", "value": "0 40px 80px -40px rgb(150 170 200 / 0.18), inset 0 1px 0 rgb(255 255 255 / 0.04)", "purpose": "Exclusivo del marco de lo guardado: la luz de la pantalla." },
+      { "name": "boton-fijo", "value": "0 12px 30px -10px rgb(0 0 0 / 0.55)", "purpose": "Botón inferior fijo del celular, sobre el contenido que pasa." }
+    ],
+    "motion": [
+      { "name": "ease", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Toda transición y animación del sitio." },
+      { "name": "trazar", "value": "1.6s var(--ease) 0.3s", "purpose": "El contorno del plano se dibuja solo al cargar." },
+      { "name": "aparecer", "value": "0.8s var(--ease) 1.3s", "purpose": "Cotas, veta y medidas aparecen tras el trazo." },
+      { "name": "gap-boton", "value": "0.4s var(--ease)", "purpose": "Apertura del espacio ícono-texto al hover en botones y enlaces con flecha." }
+    ],
+    "breakpoints": [
+      { "name": "dos-columnas", "value": "1000px" },
+      { "name": "sin-nav", "value": "960px" },
+      { "name": "contacto-una-columna", "value": "900px" },
+      { "name": "pasos-verticales", "value": "860px" },
+      { "name": "boton-fijo", "value": "640px" },
+      { "name": "diptico-compacto", "value": "560px" },
+      { "name": "cta-solo-icono", "value": "520px" },
+      { "name": "diptico-trabajos-compacto", "value": "480px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón claro",
+      "kind": "button",
+      "refersTo": "boton-claro",
+      "description": "Acción principal (mandar la referencia por WhatsApp) sobre noche.",
+      "html": "<a class=\"ds-boton ds-boton--claro\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"19\" height=\"19\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\"><path d=\"M22 2 11 13\"/><path d=\"m22 2-7 20-4-9-9-4 20-7z\"/></svg>Mandanos tu referencia</a>",
+      "css": ".ds-boton { display: inline-flex; align-items: center; gap: 0.75rem; min-height: 3.5rem; padding: 0.9rem 1.6rem; border-radius: 999px; border: 1px solid transparent; text-decoration: none; font-family: var(--f-sans, 'Geist Variable', system-ui, sans-serif); font-weight: 500; font-size: 1rem; line-height: 1.2; letter-spacing: -0.005em; cursor: pointer; transition: background-color 0.3s cubic-bezier(0.16,1,0.3,1), color 0.3s cubic-bezier(0.16,1,0.3,1), gap 0.4s cubic-bezier(0.16,1,0.3,1); } .ds-boton--claro { background: #ebe9e4; color: #0e1012; } .ds-boton--claro:hover { background: #fff; gap: 1rem; } .ds-boton:focus-visible { outline: 1.5px solid currentColor; outline-offset: 4px; }"
+    },
+    {
+      "name": "Botón claro sobre verde",
+      "kind": "button",
+      "refersTo": "boton-claro-verde",
+      "description": "El mismo botón reasignado al campo verde (envío del formulario).",
+      "html": "<div style=\"background:#1e3b2f;padding:2rem\"><button class=\"ds-boton-verde\" type=\"button\">Enviar por WhatsApp</button></div>",
+      "css": ".ds-boton-verde { display: inline-flex; align-items: center; gap: 0.75rem; min-height: 3.5rem; padding: 0.9rem 1.6rem; border-radius: 999px; border: 0; font-family: 'Geist Variable', system-ui, sans-serif; font-weight: 500; font-size: 1rem; background: #e3ebe6; color: #1e3b2f; cursor: pointer; transition: background-color 0.3s cubic-bezier(0.16,1,0.3,1), gap 0.4s cubic-bezier(0.16,1,0.3,1); } .ds-boton-verde:hover { background: #fff; gap: 1rem; } .ds-boton-verde:focus-visible { outline: 1.5px solid #e3ebe6; outline-offset: 4px; }"
+    },
+    {
+      "name": "Enlace con flecha",
+      "kind": "custom",
+      "refersTo": "enlace-flecha",
+      "description": "Acción secundaria junto al botón; la flecha se aleja al hover.",
+      "html": "<div style=\"background:#0e1012;padding:2rem\"><a class=\"ds-enlace-flecha\" href=\"#\">Ver trabajos <svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\"><path d=\"M12 5v14\"/><path d=\"m19 12-7 7-7-7\"/></svg></a></div>",
+      "css": ".ds-enlace-flecha { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 3rem; text-decoration: none; font-family: 'Geist Variable', system-ui, sans-serif; font-weight: 450; color: #ebe9e4; border-bottom: 1px solid rgb(235 233 228 / 0.4); padding-bottom: 0.1rem; transition: gap 0.4s cubic-bezier(0.16,1,0.3,1); } .ds-enlace-flecha:hover { gap: 0.95rem; } .ds-enlace-flecha:focus-visible { outline: 1.5px solid currentColor; outline-offset: 4px; }"
+    },
+    {
+      "name": "Barra",
+      "kind": "nav",
+      "refersTo": "barra-cta",
+      "description": "Barra pegajosa en vidrio nocturno con CTA en pastilla.",
+      "html": "<header class=\"ds-barra\"><a class=\"ds-barra__marca\" href=\"#\">Nombre del taller</a><nav><a href=\"#\">Cómo funciona</a><a href=\"#\">Trabajos</a><a href=\"#\">El taller</a></nav><a class=\"ds-barra__cta\" href=\"#\">Mandanos tu referencia</a></header>",
+      "css": ".ds-barra { display: flex; align-items: center; gap: 2.5rem; min-height: 4.25rem; padding: 0 1.5rem; background: rgb(14 16 18 / 0.86); backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1px solid rgb(45 49 55 / 0.7); color: #ebe9e4; font-family: 'Geist Variable', system-ui, sans-serif; } .ds-barra__marca { margin-right: auto; text-decoration: none; color: inherit; font-weight: 500; font-size: 1.0625rem; letter-spacing: -0.01em; } .ds-barra nav { display: flex; gap: 2rem; } .ds-barra nav a { text-decoration: none; font-size: 0.9375rem; color: #9ea2a8; transition: color 0.25s; } .ds-barra nav a:hover { color: #ebe9e4; } .ds-barra__cta { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0.55rem 1.1rem; border: 1px solid rgb(235 233 228 / 0.35); border-radius: 999px; text-decoration: none; color: inherit; font-size: 0.9375rem; font-weight: 500; transition: background-color 0.3s, color 0.3s, border-color 0.3s; } .ds-barra__cta:hover { background: #ebe9e4; color: #0e1012; border-color: #ebe9e4; } .ds-barra a:focus-visible { outline: 1.5px solid currentColor; outline-offset: 4px; }"
+    },
+    {
+      "name": "Opción de tipo de mueble",
+      "kind": "chip",
+      "refersTo": "opcion-tipo",
+      "description": "Radio en pastilla sobre el campo verde; se llena al elegirse.",
+      "html": "<div class=\"ds-tipos\"><label class=\"ds-tipo\"><input type=\"radio\" name=\"m\" checked><span>Placard</span></label><label class=\"ds-tipo\"><input type=\"radio\" name=\"m\"><span>Cocina</span></label><label class=\"ds-tipo\"><input type=\"radio\" name=\"m\"><span>Rack de TV</span></label></div>",
+      "css": ".ds-tipos { display: flex; flex-wrap: wrap; gap: 0.5rem; background: #1e3b2f; padding: 1.5rem; color: #e3ebe6; font-family: 'Geist Variable', system-ui, sans-serif; } .ds-tipo { position: relative; } .ds-tipo input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; } .ds-tipo span { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0.5rem 1.1rem; border: 1px solid #a8c1b4; border-radius: 999px; font-size: 0.9375rem; transition: background-color 0.25s, color 0.25s, border-color 0.25s; } .ds-tipo:hover span { border-color: #e3ebe6; } .ds-tipo input:checked + span { background: #e3ebe6; color: #1e3b2f; border-color: #e3ebe6; } .ds-tipo input:focus-visible + span { outline: 1.5px solid #e3ebe6; outline-offset: 3px; }"
+    },
+    {
+      "name": "Campo de línea",
+      "kind": "input",
+      "refersTo": "campo",
+      "description": "Campo sin caja: rótulo mono arriba, solo línea inferior.",
+      "html": "<div class=\"ds-campo\"><label for=\"ds-n\">Tu nombre</label><input id=\"ds-n\" type=\"text\" placeholder=\"\"></div>",
+      "css": ".ds-campo { display: grid; gap: 0.6rem; background: #1e3b2f; padding: 1.5rem; color: #e3ebe6; } .ds-campo label { font-family: 'Geist Mono Variable', ui-monospace, monospace; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 450; color: #a8c1b4; } .ds-campo input { width: 100%; background: transparent; border: 0; border-bottom: 1px solid #a8c1b4; border-radius: 0; padding: 0.5rem 0 0.65rem; font-family: 'Geist Variable', system-ui, sans-serif; font-size: 1.25rem; font-weight: 300; letter-spacing: -0.01em; color: inherit; outline: none; transition: border-color 0.25s; } .ds-campo input:focus { border-bottom-color: #e3ebe6; box-shadow: 0 1px 0 #e3ebe6; }"
+    },
+    {
+      "name": "Marco de lo guardado",
+      "kind": "card",
+      "refersTo": "marco-guardado",
+      "description": "La referencia guardada dentro de un marco de pantalla iluminado y girado; mitad izquierda del díptico de portada.",
+      "html": "<div style=\"background:#0e1012;padding:3rem\"><figure class=\"ds-guardado\"><div class=\"ds-guardado__barra\"><span>Guardado</span><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\"><path d=\"m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z\"/></svg></div><div class=\"ds-guardado__img\"></div><figcaption>Mesa ratona modular</figcaption></figure></div>",
+      "css": ".ds-guardado { width: 14rem; margin: 0; background: #16191d; border: 1px solid #2d3137; border-radius: 1.75rem; padding: 0.7rem 0.7rem 1rem; box-shadow: 0 40px 80px -40px rgb(150 170 200 / 0.18), inset 0 1px 0 rgb(255 255 255 / 0.04); rotate: -2deg; color: #ebe9e4; font-family: 'Geist Variable', system-ui, sans-serif; } .ds-guardado__barra { display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0.5rem 0.7rem; color: #9ea2a8; font-family: 'Geist Mono Variable', ui-monospace, monospace; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; } .ds-guardado__barra svg { color: #ebe9e4; } .ds-guardado__img { aspect-ratio: 4 / 5; border-radius: 1.1rem; background: linear-gradient(160deg, #d9d4ca, #8d7a62); } .ds-guardado figcaption { padding: 0.85rem 0.5rem 0; font-size: 0.9375rem; line-height: 1.35; }"
+    },
+    {
+      "name": "Cota",
+      "kind": "custom",
+      "refersTo": "medida",
+      "description": "Línea de cota fina con flechas abiertas y medida en mono como span HTML sobre el SVG.",
+      "html": "<div class=\"ds-cota\"><svg viewBox=\"0 0 240 40\" aria-hidden=\"true\"><defs><marker id=\"ds-fl\" viewBox=\"0 0 8 8\" refX=\"4\" refY=\"4\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0.5 1 L4 4 L0.5 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1\"/></marker></defs><line x1=\"20\" y1=\"4\" x2=\"20\" y2=\"30\"/><line x1=\"220\" y1=\"4\" x2=\"220\" y2=\"30\"/><line x1=\"20\" y1=\"24\" x2=\"220\" y2=\"24\" marker-start=\"url(#ds-fl)\" marker-end=\"url(#ds-fl)\"/></svg><span class=\"ds-cota__medida\">90 cm</span></div>",
+      "css": ".ds-cota { position: relative; width: 16rem; padding: 1.5rem; background: #0e1012; color: #c9c4ba; } .ds-cota svg { display: block; width: 100%; height: auto; overflow: visible; } .ds-cota line { stroke: currentColor; stroke-width: 0.8; vector-effect: non-scaling-stroke; } .ds-cota__medida { position: absolute; left: 50%; top: 42%; translate: -50% -50%; padding: 0 0.4rem; background: #0e1012; font-family: 'Geist Mono Variable', ui-monospace, monospace; font-size: 0.75rem; line-height: 1; letter-spacing: 0.04em; color: #ebe9e4; white-space: nowrap; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "La referencia y la pieza",
+    "overview": "Cada mueble se presenta como un díptico: lo que guardaste en la pantalla y el mismo mueble redibujado a tu medida. El sitio arranca de noche, como el celular a la hora en que la gente guarda muebles, y a medida que se baja va pasando por fases de luz: noche, grafito, día, y cierra en un campo entero de laca verde inglés que incluye el pie. La jerarquía la hace la escala, no el peso ni el color: Geist en pesos finos y tamaños enormes, y rótulos Geist Mono chicos solo para medidas, índices y estados.\n\nHay dos materiales de distinta edad. Lo guardado vive en un marco de pantalla iluminado (esquinas redondeadas, apenas girado, con un halo frío). Lo fabricado aparece como fotografía física, sin marco ni esquinas redondeadas, al lado de su dibujo técnico. Entre los dos corre el lenguaje de la cota: líneas finas, flechas abiertas y medidas en mono.\n\nRechazos confirmados: la foto de living a pantalla completa con serif fina sobre crema, y el negro con dorado.",
+    "keyCharacteristics": [
+      "Fondo por fases: noche → grafito → día → verde, una sección por fase, sin volver atrás.",
+      "Jerarquía solo por escala: titulares de 280–300 de peso a tamaño enorme, interletrado negativo.",
+      "El díptico como unidad que se repite: imagen + dibujo con cotas.",
+      "Cotas finas con flechas abiertas y medidas en Geist Mono, legibles en rem.",
+      "Formas de pastilla para acciones, rectas para todo lo demás."
+    ],
+    "rules": [
+      { "name": "La Regla de las Fases", "body": "El fondo avanza en un solo sentido: noche → grafito → día → verde. Cada sección toma una fase entera; no hay tarjetas de otro tono flotando sobre el fondo, ni una sección clara intercalada entre oscuras.", "section": "colors" },
+      { "name": "La Regla del Verde al Final", "body": "El verde es un campo, no un acento. Se usa solo como fondo del cierre (contacto y pie), nunca en botones, enlaces ni detalles de otras fases.", "section": "colors" },
+      { "name": "La Regla de la Selección Invertida", "body": "Cada fase invierte su propio par para ::selection: texto de la fase como fondo, fondo de la fase como texto.", "section": "colors" },
+      { "name": "La Regla de la Escala Sola", "body": "La jerarquía se marca por tamaño. Los titulares nunca pasan de 300 de peso; el peso más alto del sistema es 500 y queda reservado a botones y al nombre en la barra.", "section": "typography" },
+      { "name": "La Regla del Rótulo Mínimo", "body": "El mono es para medidas, índices y estados. No se usa como antetítulo de sección: ningún título lleva una línea chica encima.", "section": "typography" },
+      { "name": "La Regla de los Dos Materiales", "body": "Lo guardado es pantalla: redondeado, con halo, girado −2deg (−1.5deg en celular). Lo fabricado es foto física: esquinas rectas, sin sombra, sin marco, con un leve saturate(0.85) contrast(1.03). Nunca se cruzan.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do respetar el orden de fases: noche (portada), grafito (proceso), día (trabajos a preguntas), verde (contacto y pie).",
+      "Do presentar cada mueble como díptico: imagen al lado de su dibujo con cotas.",
+      "Do escribir las medidas en Geist Mono como span HTML sobre el SVG, en rem.",
+      "Do mantener los titulares en 280–300 de peso y dejar que el tamaño haga la jerarquía.",
+      "Do usar pastilla solo para acciones y estados; todo lo demás, recto y con filetes de 1px.",
+      "Do marcar como \"Muestra\" toda foto que no sea un trabajo real.",
+      "Do usar --ease para todo movimiento y respetar prefers-reduced-motion."
+    ],
+    "donts": [
+      "Don't usar foto de living a pantalla completa con serif fina sobre crema.",
+      "Don't usar negro con dorado.",
+      "Don't usar el verde como acento fuera del campo final.",
+      "Don't redondear ni enmarcar las fotos de trabajos: el marco redondeado es solo para lo guardado.",
+      "Don't poner antetítulos en mono sobre los títulos de sección.",
+      "Don't usar el rojo de Pinterest ni su nombre como marca."
+    ]
+  }
+}

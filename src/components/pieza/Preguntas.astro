@@ -1,0 +1,61 @@
+---
+import Icon from '../Icon.astro';
+import { preguntas as cargarPreguntas } from '../../lib/contenido';
+const preguntas = await cargarPreguntas();
+---
+{preguntas.length > 0 && (
+<section id="preguntas" class="preguntas" aria-labelledby="titulo-preguntas">
+  <div class="envoltura preguntas__grilla">
+    <h2 id="titulo-preguntas">Preguntas <em>frecuentes</em></h2>
+    <div class="preguntas__lista">
+      {preguntas.map((p, i) => (
+        <details open={i === 0}>
+          <summary>
+            <span>{p.pregunta}</span>
+            <Icon name="Plus" size={22} class="preguntas__icono" />
+          </summary>
+          <p>{p.respuesta}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+)}
+
+<style>
+  .preguntas { padding-block: 0 var(--seccion); }
+  .preguntas__grilla {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 2rem clamp(2rem, 6vw, 6rem);
+    align-items: start;
+    border-top: 1px solid var(--linea);
+    padding-top: var(--seccion);
+  }
+  .preguntas h2 { max-width: 9ch; }
+  .preguntas h2 em { display: block; }
+  .preguntas__lista { border-top: 1px solid var(--tinta); }
+  details { border-bottom: 1px solid var(--linea-2); }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    padding-block: 1.35rem;
+    cursor: pointer;
+    list-style: none;
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary :global(.preguntas__icono) { transition: rotate 0.4s var(--ease); flex: none; }
+  details[open] summary :global(.preguntas__icono) { rotate: 45deg; }
+  summary:hover span { color: var(--madera); }
+  summary span { transition: color 0.3s var(--ease); }
+  details p { padding-bottom: 1.5rem; color: var(--tinta-2); max-width: 56ch; }
+
+  @media (max-width: 860px) {
+    .preguntas__grilla { grid-template-columns: 1fr; }
+  }
+</style>

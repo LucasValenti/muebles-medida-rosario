@@ -1,0 +1,89 @@
+---
+import Icon from '../Icon.astro';
+import { pasos } from '../../data/contenido';
+import { enlaceWhatsApp } from '../../data/negocio';
+---
+<section id="proceso" class="proceso hoja hoja--rayada" aria-labelledby="titulo-proceso">
+  <p class="hoja__marca envoltura" aria-hidden="true"><span class="rotulo">Triplicado</span><span class="rotulo hoja__num">Hoja 4</span></p>
+  <div class="envoltura">
+    <h2 id="titulo-proceso">De tu idea a tu casa, en cuatro pasos.</h2>
+
+    <ol class="pasos" role="list">
+      {pasos.map((p, i) => (
+        <li class="paso">
+          <span class="paso__numero num" aria-hidden="true">{i + 1}</span>
+          <h3><span class="solo-lector">Paso {i + 1}: </span>{p.titulo}</h3>
+          <p>{p.texto}</p>
+          {i === 0 && (
+            <a class="paso__accion" href={enlaceWhatsApp()} target="_blank" rel="noopener">
+              <Icon name="whatsapp" size={18} /> Mandanos tu idea
+            </a>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .proceso {
+    background-color: var(--amarillo);
+    padding-block: var(--seccion);
+    --hoja-rayado: rgb(201 180 63 / 0.4);
+    --hoja-marca: var(--tinta-amarilla);
+    --hoja-troquel: #a8922a;
+  }
+  .proceso ::selection { background: var(--tinta); color: var(--amarillo); }
+  .proceso h2 { max-width: 16ch; }
+
+  .pasos {
+    list-style: none;
+    padding: 0;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    border-top: 2px solid var(--tinta);
+    border-bottom: 2px solid var(--tinta);
+  }
+  .paso {
+    display: grid;
+    grid-template-columns: clamp(4rem, 9vw, 8rem) minmax(0, 4fr) minmax(0, 6fr) auto;
+    gap: 0.5rem clamp(1rem, 3vw, 2.5rem);
+    align-items: baseline;
+    padding-block: clamp(1.1rem, 2.4vw, 1.75rem);
+  }
+  .paso + .paso { border-top: 1px solid #c9b43f; }
+  .paso__numero {
+    font-size: clamp(3rem, 2rem + 4vw, 5.5rem);
+    line-height: 0.8;
+    font-weight: 820;
+    font-variation-settings: 'wdth' 62;
+    letter-spacing: -0.03em;
+  }
+  .paso h3 {
+    font-size: clamp(1.3125rem, 1.1rem + 0.9vw, 1.875rem);
+    font-variation-settings: 'wdth' 75;
+    font-weight: 750;
+    line-height: 1.1;
+  }
+  .paso p { color: var(--tinta-amarilla); font-size: 1.0625rem; line-height: 1.6; }
+  .paso__accion {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    font-weight: 700;
+    font-variation-settings: 'wdth' 85;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    padding: 0.55rem 0.9rem;
+    border: 1.5px solid var(--tinta);
+    border-radius: 3px;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .paso__accion:hover { background: var(--tinta); color: var(--amarillo); }
+
+  @media (max-width: 760px) {
+    .paso { grid-template-columns: 3.25rem 1fr; }
+    .paso p, .paso__accion { grid-column: 2; }
+    .paso__accion { justify-self: start; margin-top: 0.5rem; }
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+import Icon from '../Icon.astro';
+import { enlaceWhatsApp } from '../../data/negocio';
+---
+<div class="talon-fijo" data-talon-fijo>
+  <a class="talon" href={enlaceWhatsApp()} target="_blank" rel="noopener">
+    <span class="talon__talonario"><Icon name="whatsapp" size={22} /></span>
+    <span class="talon__texto">Pedí tu presupuesto por WhatsApp</span>
+  </a>
+</div>
+
+<script>
+  const fijo = document.querySelector<HTMLElement>('[data-talon-fijo]');
+  const destinos = document.querySelectorAll('#presupuesto, .portada .acciones');
+  if (fijo && 'IntersectionObserver' in window) {
+    const visibles = new Set<Element>();
+    const io = new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => (e.isIntersecting ? visibles.add(e.target) : visibles.delete(e.target)));
+      fijo.classList.toggle('oculto', visibles.size > 0);
+    });
+    destinos.forEach((d) => io.observe(d));
+  }
+</script>
+
+<style>
+  .talon-fijo {
+    display: none;
+  }
+  @media (max-width: 640px) {
+    .talon-fijo {
+      display: block;
+      position: fixed;
+      inset: auto 0 0;
+      z-index: 50;
+      padding: 0.6rem var(--gutter) calc(0.6rem + env(safe-area-inset-bottom));
+      background: rgb(252 252 250 / 0.96);
+      border-top: 1px solid var(--rayado);
+      transition: translate 0.4s var(--ease-salida);
+    }
+    .talon-fijo .talon { width: 100%; }
+    .talon-fijo.oculto { translate: 0 110%; }
+  }
+</style>

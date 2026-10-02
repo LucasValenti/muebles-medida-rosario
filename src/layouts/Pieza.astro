@@ -1,0 +1,57 @@
+---
+import '../styles/pieza.css';
+import { negocio as cargarNegocio } from '../lib/contenido';
+import { pendiente } from '../lib/formato';
+const negocio = await cargarNegocio();
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+}
+const { titulo, descripcion } = Astro.props;
+
+const jsonLd = pendiente(negocio.nombre)
+  ? null
+  : {
+      '@context': 'https://schema.org',
+      '@type': 'HomeAndConstructionBusiness',
+      name: negocio.nombre,
+      description: descripcion,
+      address: { '@type': 'PostalAddress', addressLocality: negocio.ciudad, addressRegion: negocio.provincia, addressCountry: 'AR' },
+      ...(pendiente(negocio.telefono) ? {} : { telephone: negocio.telefono }),
+    };
+---
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#f4efe7" />
+    <link rel="icon" href="/favicon-pieza.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:image" content="/fotos/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <a class="saltar solo-lector" href="#contenido">Ir al contenido</a>
+    <slot />
+  </body>
+</html>
+
+<style>
+  .saltar:focus {
+    position: fixed !important;
+    top: 0.75rem; left: 0.75rem;
+    width: auto; height: auto; clip: auto; margin: 0;
+    padding: 0.75rem 1rem;
+    background: var(--tinta); color: var(--crema);
+    z-index: 100;
+  }
+</style>

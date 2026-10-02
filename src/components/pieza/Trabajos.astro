@@ -1,0 +1,114 @@
+---
+import Icon from '../Icon.astro';
+import Alzado from './Alzado.astro';
+import { Image } from 'astro:assets';
+import { negocio as cargarNegocio } from '../../lib/contenido';
+import { enlaceWhatsApp, pendiente } from '../../lib/formato';
+const negocio = await cargarNegocio();
+const wa = (mensaje?: string) => enlaceWhatsApp(negocio.whatsapp, mensaje);
+import { encargos as cargarEncargos } from '../../lib/contenido';
+// La sección aparece sola cuando el cliente carga al menos un trabajo a medida en el panel
+const encargos = await cargarEncargos();
+---
+{encargos.length > 0 && (
+<section id="a-medida" class="a-medida" aria-labelledby="titulo-a-medida">
+  <div class="envoltura">
+    <div class="cabecera">
+      <h2 id="titulo-a-medida">¿Tu espacio pide <em>otra medida?</em></h2>
+      <p>También dibujamos y fabricamos a medida. Nos mandás la foto del mueble que te gustó y las medidas del lugar, y lo adaptamos.</p>
+    </div>
+
+    <ul class="dipticos">
+      {encargos.map((p) => (
+        <li class="diptico">
+          <div class="diptico__par">
+            <div class="diptico__dibujo">
+              <Alzado tipo={p.forma} ancho={p.ancho} alto={p.alto} mueble={p.mueble} ilustrativo />
+            </div>
+            <div class="diptico__foto">
+              <Image src={p.foto} alt={p.alt} widths={[400, 700]} sizes="(max-width: 640px) 55vw, 25vw" />
+              {p.muestra && <span class="rotulo muestra">Muestra</span>}
+            </div>
+          </div>
+          <div class="diptico__pie">
+            <h3>{p.mueble}</h3>
+            <span>{p.ambiente}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <div class="a-medida__cierre">
+      <a class="boton boton--tinta" href={wa('Hola! Les mando la foto de un mueble que me gustó y las medidas de mi espacio para pedir presupuesto.')} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={19} /> Mandanos tu referencia
+      </a>
+      <p>Foto o captura, medidas aproximadas y los colores que te gustan. Con eso arrancamos.</p>
+    </div>
+  </div>
+</section>
+)}
+
+<style>
+  .a-medida { padding-block: var(--seccion); background: var(--crema-2); }
+  .a-medida ::selection { background: var(--tinta); color: var(--crema-2); }
+  .a-medida .alzado-lienzo { color: var(--cota); }
+
+  .dipticos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(3rem, 5vw, 4.5rem) clamp(2rem, 4vw, 4rem);
+    list-style: none;
+    padding: 0;
+  }
+  .diptico__par {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
+    gap: clamp(1rem, 2vw, 1.75rem);
+  }
+  .diptico__dibujo {
+    display: grid;
+    align-items: center;
+    padding: 0.5rem 1.5rem 0.5rem 0;
+  }
+  .diptico__foto {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radio);
+    background: var(--linea);
+  }
+  .diptico__foto img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.9); }
+  .diptico__pie {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--tinta);
+  }
+  .diptico__pie span { font-size: 0.875rem; color: var(--tinta-3); }
+
+  .a-medida__cierre {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+    margin-top: clamp(3rem, 6vw, 5rem);
+    padding-top: clamp(2rem, 3vw, 2.5rem);
+    border-top: 1px solid var(--linea-2);
+  }
+  .a-medida__cierre p { color: var(--tinta-2); max-width: 44ch; }
+
+  @media (max-width: 1000px) {
+    .diptico__dibujo { padding-right: 0.75rem; }
+  }
+  @media (max-width: 640px) {
+    .dipticos { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .diptico__par { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 0.75rem; }
+    .diptico__dibujo { padding-right: 0.9rem; }
+    .a-medida__cierre .boton { width: 100%; }
+  }
+</style>

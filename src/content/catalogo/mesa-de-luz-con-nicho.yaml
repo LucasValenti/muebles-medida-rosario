@@ -1,0 +1,12 @@
+mueble: "Mesa de luz con nicho"
+orden: 40
+foto: "../../assets/catalogo/mesa-de-luz-con-nicho/foto.jpg"
+alt: "Mesa de luz de roble con un nicho lateral para libros, al lado de la cama"
+encuadre: "abajo"
+muestra: true
+ambiente: "Dormitorio"
+terminacion: "Roble"
+ancho: 45
+alto: 50
+prof: 35
+forma: "nicho"

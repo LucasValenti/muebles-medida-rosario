@@ -1,0 +1,133 @@
+---
+import Icon from '../Icon.astro';
+import Sello from './Sello.astro';
+import { negocio, enlaceWhatsApp, pendiente } from '../../data/negocio';
+
+const anio = new Date().getFullYear();
+---
+<footer class="pie">
+  <div class="envoltura pie__grilla">
+    <div class="pie__marca">
+      <p class:list={['pie__nombre', { 'pie__pendiente': pendiente(negocio.nombre) }]}>{negocio.nombre}</p>
+      <p>Carpintería y muebles a medida en {negocio.ciudad}, {negocio.provincia}.</p>
+      <a class="talon pie__talon" href={enlaceWhatsApp()} target="_blank" rel="noopener">
+        <span class="talon__talonario"><Icon name="whatsapp" size={22} /></span>
+        <span class="talon__texto">Escribir por WhatsApp</span>
+      </a>
+    </div>
+
+    <nav class="pie__col" aria-label="Navegar">
+      <p class="rotulo">Navegar</p>
+      <ul role="list">
+        <li><a href="#trabajos">Trabajos</a></li>
+        <li><a href="#taller">El taller</a></li>
+        <li><a href="#proceso">Cómo trabajamos</a></li>
+        <li><a href="#preguntas">Preguntas frecuentes</a></li>
+        <li><a href="#presupuesto">Pedir presupuesto</a></li>
+      </ul>
+    </nav>
+
+    <div class="pie__col">
+      <p class="rotulo">Contacto</p>
+      <ul role="list">
+        <li><a href={`tel:${negocio.telefono}`}><Icon name="Phone" size={18} /> <span class:list={['num', { 'pie__pendiente': pendiente(negocio.telefonoVisible) }]}>{negocio.telefonoVisible}</span></a></li>
+        <li><a href={`mailto:${negocio.email}`}><Icon name="Mail" size={18} /> <span class:list={{ 'pie__pendiente': pendiente(negocio.email) }}>{negocio.email}</span></a></li>
+        <li><span class="pie__dato"><Icon name="MapPin" size={18} /> <span><span class:list={{ 'pie__pendiente': pendiente(negocio.direccion) }}>{negocio.direccion}</span>, {negocio.ciudad}</span></span></li>
+      </ul>
+    </div>
+
+    <div class="pie__col">
+      <p class="rotulo">Redes</p>
+      <ul role="list">
+        <li><a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener"><Icon name="instagram" size={18} /> <span class:list={{ 'pie__pendiente': pendiente(negocio.instagram) }}>@{negocio.instagram}</span></a></li>
+        <li><a href={`https://facebook.com/${negocio.facebook}`} target="_blank" rel="noopener"><Icon name="facebook" size={18} /> <span>Facebook</span></a></li>
+      </ul>
+    </div>
+
+    <Sello class="pie__sello" arriba="MUEBLES A MEDIDA" abajo="ROSARIO · SANTA FE" centro="TALLER" />
+  </div>
+
+  <div class="envoltura pie__base">
+    <p>© {anio} {negocio.nombre}</p>
+    <p>Presupuestos sin compromiso</p>
+  </div>
+</footer>
+
+<style>
+  .pie {
+    background: var(--carbonico);
+    color: #eef0fa;
+    padding-block: clamp(3.5rem, 7vw, 6rem) 0;
+    --sello: #ef6a5f;
+  }
+  .pie ::selection { background: #eef0fa; color: var(--carbonico); }
+  .pie :focus-visible { outline-color: #eef0fa; }
+  .pie__grilla {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) repeat(3, minmax(0, 2.4fr));
+    gap: 2.5rem clamp(1.5rem, 3vw, 3rem);
+  }
+  .pie__nombre {
+    font-weight: 800;
+    font-variation-settings: 'wdth' 70;
+    font-size: clamp(2rem, 1.4rem + 2.2vw, 3.25rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    width: fit-content;
+  }
+  .pie__marca > p:not(.pie__nombre) { margin-top: 0.9rem; color: var(--tinta-carbonico); max-width: 30ch; }
+  .pie__talon {
+    margin-top: 1.75rem;
+    --talon-fondo: #eef0fa;
+    --talon-texto: var(--carbonico);
+  }
+  .pie__talon :global(.talon__talonario) { border-right-color: rgb(22 27 61 / 0.35); }
+  .pie__col .rotulo { color: var(--tinta-carbonico); margin-bottom: 1rem; }
+  .pie__col ul { list-style: none; padding: 0; display: grid; gap: 0.35rem; }
+  .pie__col a, .pie__dato {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.25rem;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+  }
+  .pie__col a:hover { text-decoration: underline; }
+  .pie__pendiente {
+    outline: 1px dashed rgb(239 106 95 / 0.7);
+    outline-offset: 2px;
+    color: #ffb3ab;
+  }
+  .pie__grilla :global(.pie__sello) {
+    position: absolute;
+    right: 0;
+    top: -1rem;
+    width: 7.5rem;
+    rotate: 12deg;
+    opacity: 0.85;
+    pointer-events: none;
+  }
+  .pie__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    margin-top: clamp(3rem, 6vw, 5rem);
+    padding-block: 1.25rem 1.5rem;
+    border-top: 1px solid rgb(201 205 230 / 0.25);
+    font-size: var(--t-small);
+    color: var(--tinta-carbonico);
+  }
+
+  @media (max-width: 1000px) {
+    .pie__grilla { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pie__marca { grid-column: 1 / -1; }
+  }
+  @media (max-width: 640px) {
+    .pie__grilla { grid-template-columns: 1fr; }
+    .pie__grilla :global(.pie__sello) { width: 5.5rem; top: 0; }
+    .pie { padding-bottom: 5.5rem; }
+  }
+</style>

@@ -1,0 +1,292 @@
+---
+import Icon from '../Icon.astro';
+import { negocio as cargarNegocio, catalogo as cargarCatalogo } from '../../lib/contenido';
+import { cm } from '../../lib/formato';
+const negocio = await cargarNegocio();
+const catalogo = await cargarCatalogo();
+import { geometria, ESPACIO, VISTA } from '../../lib/plano';
+
+const inicial = catalogo[0] ?? { mueble: '', medidas: { ancho: 50, alto: 50, prof: 35 } };
+const g = geometria(ESPACIO.inicial, inicial.medidas);
+const pos = (p: { x: number; y: number }) => `left: ${(p.x / VISTA.ancho) * 100}%; top: ${(p.y / VISTA.alto) * 100}%`;
+const piezas = catalogo.map((p) => ({ id: p.id, mueble: p.mueble, ancho: p.medidas.ancho, prof: p.medidas.prof, alto: p.medidas.alto }));
+---
+{catalogo.length > 0 && (
+<section id="tu-espacio" class="entra fase-nogal" aria-labelledby="titulo-entra">
+  <div class="envoltura">
+    <div class="cabecera">
+      <h2 id="titulo-entra">¿Entra en <em>tu espacio?</em></h2>
+      <p>Elegí una pieza y marcá el ancho del lugar que tenés. Si con su medida no entra, la fabricamos con la tuya.</p>
+    </div>
+
+    <div class="entra__grilla" data-entra data-piezas={JSON.stringify(piezas)} data-whatsapp={negocio.whatsapp}>
+      <div class="entra__mandos">
+        <fieldset>
+          <legend class="rotulo">Pieza</legend>
+          <div class="opciones">
+            {catalogo.map((p, i) => (
+              <label class="opcion">
+                <input type="radio" name="pieza-entra" value={p.id} checked={i === 0} />
+                <span>{p.mueble}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <label class="control">
+          <span class="control__cabeza">
+            <span class="rotulo">Ancho de tu espacio</span>
+            <output class="medidas" data-salida>{ESPACIO.inicial} cm</output>
+          </span>
+          <input type="range" min={ESPACIO.min} max={ESPACIO.max} step="1" value={ESPACIO.inicial} data-espacio aria-valuetext={`${ESPACIO.inicial} centímetros`} />
+        </label>
+
+        <div class="veredicto" aria-live="polite">
+          <p class="veredicto__frase" data-frase>
+            Entra, y te quedan <span class="medidas-serif">{cm(g.libre)} cm</span> por lado.
+          </p>
+          <a class="enlace-flecha veredicto__accion" data-accion href="#contacto" hidden>
+            <Icon name="whatsapp" size={17} /> Pedila a tu medida
+          </a>
+        </div>
+      </div>
+
+      <figure class="plano" data-entra-figura class:list={{ 'no-entra': !g.entra }}>
+        <div class="plano__lienzo">
+          <svg viewBox={`0 0 ${VISTA.ancho} ${VISTA.alto}`} role="img" data-plano aria-label={`Planta: ${inicial.mueble} de ${inicial.medidas.ancho} cm en un espacio de ${ESPACIO.inicial} cm`}>
+            <defs>
+              <pattern id="muro" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <line x1="0" y1="0" x2="0" y2="7" stroke="currentColor" stroke-width="0.8" />
+              </pattern>
+              <pattern id="veta-planta" width="5" height="5" patternUnits="userSpaceOnUse">
+                <line x1="0" y1="0" x2="5" y2="0" stroke="currentColor" stroke-width="0.6" />
+              </pattern>
+              <marker id="flecha-entra" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0.5 1 L4 4 L0.5 7" fill="none" stroke="currentColor" stroke-width="1" />
+              </marker>
+            </defs>
+            <rect class="plano__muro" x="0" y="20" width={VISTA.ancho} height="14" />
+            <line class="plano__pared" x1="0" y1="34" x2={VISTA.ancho} y2="34" />
+            <rect class="plano__espacio" data-g="espacio" {...g.espacio} />
+            <g class="plano__pieza">
+              <rect class="plano__veta" data-g="pieza" {...g.pieza} />
+              <rect class="plano__contorno" data-g="pieza" {...g.pieza} />
+            </g>
+            <g class="plano__cota">
+              <line data-g="piezaExtA" {...g.piezaExtA} />
+              <line data-g="piezaExtB" {...g.piezaExtB} />
+              <line data-g="piezaCota" marker-start="url(#flecha-entra)" marker-end="url(#flecha-entra)" {...g.piezaCota} />
+              <line class="plano__libre" data-g="libreCota" marker-start="url(#flecha-entra)" marker-end="url(#flecha-entra)" {...g.libreCota} />
+              <line class="plano__cota-espacio" data-g="espacioCota" marker-start="url(#flecha-entra)" marker-end="url(#flecha-entra)" {...g.espacioCota} />
+            </g>
+          </svg>
+          <span class="etiqueta etiqueta--pared" aria-hidden="true">Pared</span>
+          <span class="etiqueta" data-etiqueta="piezaTexto" style={pos(g.piezaTexto)} aria-hidden="true">{inicial.medidas.ancho} cm</span>
+          <span class="etiqueta etiqueta--suave plano__libre" data-etiqueta="libreTexto" style={pos(g.libreTexto)} aria-hidden="true">{cm(g.libre)}</span>
+          <span class="etiqueta etiqueta--suave" data-etiqueta="espacioTexto" style={pos(g.espacioTexto)} aria-hidden="true">Tu espacio · {ESPACIO.inicial} cm</span>
+        </div>
+        <figcaption class="rotulo plano__pie">Planta · vista desde arriba</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+)}
+
+<script>
+  import { geometria, VISTA } from '../../lib/plano';
+
+  type P = { id: string; mueble: string; ancho: number; prof: number; alto: number };
+  const raiz = document.querySelector<HTMLElement>('[data-entra]');
+  if (raiz) {
+    const piezas: P[] = JSON.parse(raiz.dataset.piezas ?? '[]');
+    const numero = raiz.dataset.whatsapp ?? '';
+    const svg = raiz.querySelector<SVGSVGElement>('[data-plano]')!;
+    const figura = raiz.querySelector<HTMLElement>('[data-entra-figura]')!;
+    const control = raiz.querySelector<HTMLInputElement>('[data-espacio]')!;
+    const salida = raiz.querySelector<HTMLOutputElement>('[data-salida]')!;
+    const frase = raiz.querySelector<HTMLElement>('[data-frase]')!;
+    const accion = raiz.querySelector<HTMLAnchorElement>('[data-accion]')!;
+    const fmt = (n: number) => n.toLocaleString('es-AR');
+
+    const dibujar = () => {
+      const id = (raiz.querySelector<HTMLInputElement>('input[name="pieza-entra"]:checked') ?? { value: piezas[0].id }).value;
+      const p = piezas.find((x) => x.id === id) ?? piezas[0];
+      const espacio = Number(control.value);
+      const g = geometria(espacio, p);
+      const mapa = g as unknown as Record<string, Record<string, number>>;
+      svg.querySelectorAll<SVGElement>('[data-g]').forEach((el) => {
+        for (const [k, v] of Object.entries(mapa[el.dataset.g!])) el.setAttribute(k, String(v));
+      });
+      raiz.querySelectorAll<HTMLElement>('[data-etiqueta]').forEach((el) => {
+        const q = mapa[el.dataset.etiqueta!];
+        el.style.left = `${(q.x / VISTA.ancho) * 100}%`;
+        el.style.top = `${(q.y / VISTA.alto) * 100}%`;
+      });
+      raiz.querySelector('[data-etiqueta="piezaTexto"]')!.textContent = `${fmt(p.ancho)} cm`;
+      raiz.querySelector('[data-etiqueta="libreTexto"]')!.textContent = fmt(g.libre);
+      raiz.querySelector('[data-etiqueta="espacioTexto"]')!.textContent = `Tu espacio · ${espacio} cm`;
+      figura.classList.toggle('no-entra', !g.entra);
+      figura.classList.toggle('sin-libre', !g.muestraLibre);
+      salida.value = `${espacio} cm`;
+      control.setAttribute('aria-valuetext', `${espacio} centímetros`);
+      svg.setAttribute('aria-label', `Planta: ${p.mueble} de ${p.ancho} cm en un espacio de ${espacio} cm`);
+
+      if (g.entra) {
+        frase.innerHTML = g.libre === 0
+          ? 'Entra <em>justo</em>, de pared a pared.'
+          : `Entra, y te quedan <span class="medidas-serif">${fmt(g.libre)} cm</span> por lado.`;
+        accion.hidden = true;
+      } else {
+        frase.innerHTML = `Con su medida no entra: pide <span class="medidas-serif">${fmt(p.ancho)} cm</span> y tenés ${espacio}.`;
+        const texto = `Hola! Me gusta la pieza "${p.mueble}" pero tengo ${espacio} cm de ancho. ¿Me la pueden hacer a esa medida?`;
+        accion.href = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+        accion.target = '_blank';
+        accion.rel = 'noopener';
+        accion.hidden = false;
+      }
+    };
+    raiz.addEventListener('input', dibujar);
+    dibujar();
+  }
+</script>
+
+<style>
+  .entra { padding-block: var(--seccion); }
+  .entra__grilla {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: center;
+  }
+
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  legend { padding: 0; margin-bottom: 0.9rem; color: var(--texto-nogal-2); }
+  .opciones { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .opcion { position: relative; }
+  .opcion input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+  .opcion span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.05rem;
+    border-radius: 999px;
+    border: 1px solid var(--linea-nogal);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--texto-nogal-2);
+    transition: background-color 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .opcion:hover span { border-color: var(--cota-nogal); color: var(--texto-nogal); }
+  .opcion input:checked + span { background: var(--texto-nogal); border-color: var(--texto-nogal); color: var(--nogal); }
+  .opcion input:focus-visible + span { outline: 1.5px solid var(--texto-nogal); outline-offset: 3px; }
+
+  .control { display: grid; gap: 1rem; margin-top: 2.25rem; }
+  .control__cabeza { display: flex; justify-content: space-between; align-items: baseline; color: var(--texto-nogal-2); }
+  .control__cabeza output { color: var(--texto-nogal); font-size: 0.9375rem; }
+  input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2.75rem;
+    background: transparent;
+    cursor: pointer;
+  }
+  input[type='range']::-webkit-slider-runnable-track { height: 1px; background: var(--cota-nogal); }
+  input[type='range']::-moz-range-track { height: 1px; background: var(--cota-nogal); }
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 1.375rem; height: 1.375rem;
+    margin-top: -0.6875rem;
+    border-radius: 50%;
+    background: var(--texto-nogal);
+    border: 4px solid var(--nogal);
+    box-shadow: 0 0 0 1px var(--texto-nogal);
+    transition: scale 0.3s var(--ease);
+  }
+  input[type='range']::-moz-range-thumb {
+    width: 1.375rem; height: 1.375rem;
+    border-radius: 50%;
+    background: var(--texto-nogal);
+    border: 4px solid var(--nogal);
+    box-shadow: 0 0 0 1px var(--texto-nogal);
+  }
+  input[type='range']:hover::-webkit-slider-thumb { scale: 1.15; }
+  input[type='range']:focus-visible { outline: none; }
+  input[type='range']:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 1px var(--texto-nogal), 0 0 0 5px rgb(244 239 231 / 0.25); }
+
+  .veredicto {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--linea-nogal);
+    min-height: 9.5rem;
+  }
+  .veredicto__frase {
+    font-family: var(--f-serif);
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 2.125rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    max-width: 22ch;
+  }
+  .veredicto__frase :global(em) { font-style: italic; color: var(--oro); }
+  .veredicto__frase :global(.medidas-serif) { font-style: italic; color: var(--oro); white-space: nowrap; }
+  .veredicto__accion { margin-top: 1rem; color: var(--texto-nogal); }
+  .veredicto__accion[hidden] { display: none; }
+
+  .plano {
+    padding: clamp(1rem, 2.5vw, 2rem);
+    border: 1px solid var(--linea-nogal);
+    border-radius: var(--radio);
+    background: var(--nogal-2);
+  }
+  .plano__lienzo { position: relative; color: var(--cota-nogal); }
+  .plano svg { width: 100%; height: auto; overflow: visible; }
+  .plano__muro { fill: url(#muro); color: var(--linea-nogal); }
+  .plano__pared { stroke: var(--texto-nogal-2); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+  .plano__espacio {
+    fill: none;
+    stroke: var(--cota-nogal);
+    stroke-width: 0.9;
+    stroke-dasharray: 4 4;
+    vector-effect: non-scaling-stroke;
+    transition: x 0.45s var(--ease), width 0.45s var(--ease);
+  }
+  .plano__pieza rect { transition: x 0.45s var(--ease), width 0.45s var(--ease), height 0.45s var(--ease); }
+  .plano__veta { fill: url(#veta-planta); color: var(--oro); opacity: 0.45; }
+  .plano__contorno { fill: none; stroke: var(--texto-nogal); stroke-width: 1.3; vector-effect: non-scaling-stroke; }
+  .plano__cota line { stroke: currentColor; stroke-width: 0.8; vector-effect: non-scaling-stroke; transition: opacity 0.3s; }
+  .no-entra .plano__contorno { stroke: var(--oro); stroke-dasharray: 5 3; }
+  .no-entra .plano__veta { opacity: 0.7; }
+  .no-entra .plano__libre, .sin-libre .plano__libre { opacity: 0; }
+
+  .etiqueta {
+    position: absolute;
+    translate: -50% -50%;
+    font-family: var(--f-mono);
+    font-size: 0.75rem;
+    line-height: 1;
+    letter-spacing: 0.03em;
+    color: var(--texto-nogal);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    transition: opacity 0.3s;
+  }
+  .etiqueta--suave { color: var(--cota-nogal); }
+  .etiqueta--pared {
+    left: 0; top: 0;
+    translate: 0 0;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cota-nogal);
+  }
+  .plano__pie { margin-top: 1rem; color: var(--cota-nogal); text-align: right; }
+
+  @media (max-width: 1000px) {
+    .entra__grilla { grid-template-columns: 1fr; }
+    .veredicto { min-height: 0; }
+  }
+  @media (max-width: 480px) {
+    .etiqueta { font-size: 0.625rem; }
+    .etiqueta--pared { font-size: 0.5625rem; }
+  }
+</style>

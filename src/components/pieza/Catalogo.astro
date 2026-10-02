@@ -1,0 +1,149 @@
+---
+import Icon from '../Icon.astro';
+import Alzado from './Alzado.astro';
+import { Image } from 'astro:assets';
+import { negocio as cargarNegocio } from '../../lib/contenido';
+import { enlaceWhatsApp, pendiente } from '../../lib/formato';
+const negocio = await cargarNegocio();
+const wa = (mensaje?: string) => enlaceWhatsApp(negocio.whatsapp, mensaje);
+import { catalogo as cargarCatalogo } from '../../lib/contenido';
+import { cm } from '../../lib/formato';
+const catalogo = await cargarCatalogo();
+---
+{catalogo.length > 0 && (
+<section id="catalogo" class="catalogo" aria-labelledby="titulo-catalogo">
+  <div class="envoltura">
+    <div class="cabecera">
+      <h2 id="titulo-catalogo">Piezas con <em>medida propia.</em></h2>
+      <p>Cada mueble tiene sus medidas pensadas de antemano. Las ves en la ficha, las comparás con tu espacio y lo pedís sin vueltas.</p>
+    </div>
+
+    <ul class="catalogo__grilla">
+      {catalogo.map((p, i) => (
+        <li class="linea" data-provisorio={p.medidasProvisorias ? '' : undefined}>
+          <div class="linea__foto">
+            <Image
+              src={p.foto}
+              alt={p.alt}
+              loading={i < 2 ? 'eager' : 'lazy'}
+              widths={[400, 640, 900]}
+              sizes="(max-width: 600px) 100vw, (max-width: 1180px) 50vw, 25vw"
+              style={`object-position: ${p.encuadre}`}
+            />
+            {p.muestra && <span class="rotulo muestra">Muestra</span>}
+          </div>
+          <div class="linea__cabeza">
+            <h3>{p.mueble}</h3>
+            <span class="linea__ambiente">{p.ambiente}</span>
+          </div>
+          <div class="linea__ficha">
+            <Alzado tipo={p.forma} ancho={p.medidas.ancho} alto={p.medidas.alto} mueble={p.mueble} />
+            <dl>
+              <div><dt class="rotulo">Ancho</dt><dd class="medidas">{cm(p.medidas.ancho)} cm</dd></div>
+              <div><dt class="rotulo">Alto</dt><dd class="medidas">{cm(p.medidas.alto)} cm</dd></div>
+              <div><dt class="rotulo">Prof.</dt><dd class="medidas">{cm(p.medidas.prof)} cm</dd></div>
+              <div><dt class="rotulo">Color</dt><dd>{p.terminacion}</dd></div>
+            </dl>
+          </div>
+          <a
+            class="linea__consulta"
+            href={wa(`Hola! Quiero consultar por esta pieza: ${p.mueble} (${cm(p.medidas.ancho)} × ${cm(p.medidas.alto)} × ${cm(p.medidas.prof)} cm).`)}
+            target="_blank"
+            rel="noopener"
+          >
+            Consultar por esta pieza <Icon name="ArrowUpRight" size={16} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+)}
+
+<style>
+  .catalogo { padding-block: var(--seccion); }
+  .catalogo__grilla {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0 clamp(1.25rem, 2vw, 1.75rem);
+    row-gap: clamp(3rem, 5vw, 4rem);
+    list-style: none;
+    padding: 0;
+  }
+  .linea {
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+  }
+  .linea__foto {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: var(--radio);
+    overflow: hidden;
+    background: var(--crema-2);
+  }
+  .linea__foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: scale 1.2s var(--ease);
+  }
+  .linea:hover .linea__foto img { scale: 1.035; }
+
+  .linea__cabeza {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--tinta);
+  }
+  .linea__cabeza h3 { font-size: clamp(1.3125rem, 1.15rem + 0.4vw, 1.5rem); }
+  .linea__ambiente { font-size: 0.875rem; color: var(--tinta-3); white-space: nowrap; }
+
+  .linea__ficha {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: center;
+    padding-block: 1rem 1.1rem;
+    border-bottom: 1px solid var(--linea);
+  }
+  dl { display: grid; }
+  dl div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding-block: 0.4rem;
+    border-bottom: 1px solid var(--linea);
+  }
+  dl div:last-child { border-bottom: 0; }
+  dt { color: var(--tinta-3); }
+  dd { font-size: 0.875rem; text-align: right; }
+  dd.medidas { font-size: 0.8125rem; }
+
+  .linea__consulta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    justify-self: start;
+    min-height: 2.75rem;
+    margin-top: 0.35rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    transition: gap 0.4s var(--ease), color 0.3s var(--ease);
+  }
+  .linea__consulta:hover { color: var(--madera); gap: 0.7rem; }
+
+  @media (max-width: 1180px) {
+    .catalogo__grilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .linea__ficha { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); gap: 1.5rem; }
+  }
+  @media (max-width: 600px) {
+    .catalogo__grilla { grid-template-columns: 1fr; }
+    .linea__ficha { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); }
+  }
+</style>

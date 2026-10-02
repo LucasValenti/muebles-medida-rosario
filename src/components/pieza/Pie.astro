@@ -1,0 +1,72 @@
+---
+import Icon from '../Icon.astro';
+import { negocio as cargarNegocio, encargos as cargarEncargos } from '../../lib/contenido';
+const hayEncargos = (await cargarEncargos()).length > 0;
+import { enlaceWhatsApp, pendiente } from '../../lib/formato';
+const negocio = await cargarNegocio();
+const wa = (mensaje?: string) => enlaceWhatsApp(negocio.whatsapp, mensaje);
+const anio = new Date().getFullYear();
+---
+<footer class="pie">
+  <div class="envoltura pie__grilla">
+    <div class="pie__marca">
+      <p class:list={['pie__nombre', { pendiente: pendiente(negocio.nombre) }]}>{negocio.nombre}</p>
+      <p>Muebles de diseño con medidas propias, y a medida cuando tu espacio lo pide. Hechos en {negocio.ciudad}, {negocio.provincia}.</p>
+    </div>
+    <nav aria-label="Navegar">
+      <ul role="list" class="pie__lista">
+        <li><a href="#catalogo">Catálogo</a></li>
+        {hayEncargos && <li><a href="#a-medida">A medida</a></li>}
+        <li><a href="#taller">El taller</a></li>
+        <li><a href="#preguntas">Preguntas</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+    <ul role="list" class="pie__lista">
+      <li><a href={wa()} target="_blank" rel="noopener"><Icon name="whatsapp" size={17} /> WhatsApp</a></li>
+      <li><a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener"><Icon name="instagram" size={17} /> Instagram</a></li>
+      <li><a href={`https://facebook.com/${negocio.facebook}`} target="_blank" rel="noopener"><Icon name="facebook" size={17} /> Facebook</a></li>
+    </ul>
+  </div>
+  <div class="envoltura pie__base">
+    <p class="rotulo">© {anio} {negocio.nombre}</p>
+    <p class="rotulo">{negocio.ciudad} · {negocio.provincia}</p>
+  </div>
+</footer>
+
+<style>
+  .pie { background: var(--pie); color: var(--texto-pie); padding-top: clamp(3.5rem, 6vw, 5rem); }
+  .pie ::selection { background: var(--oro); color: var(--pie); }
+  .pie__grilla {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 3fr) minmax(0, 3fr);
+    gap: 2.5rem clamp(2rem, 4vw, 4rem);
+  }
+  .pie__nombre { font-family: var(--f-serif); font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.75rem); color: var(--texto-nogal); letter-spacing: -0.015em; line-height: 1.05; width: fit-content; }
+  .pie__marca > p:last-child { margin-top: 1rem; max-width: 34ch; }
+  .pie__lista { list-style: none; padding: 0; display: grid; align-content: start; gap: 0.25rem; }
+  .pie__lista a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.5rem;
+    text-decoration: none;
+    color: var(--texto-pie);
+    transition: color 0.25s;
+  }
+  .pie__lista a:hover { color: var(--oro); }
+  .pie__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    margin-top: clamp(3.5rem, 7vw, 6rem);
+    padding-block: 1.5rem;
+    border-top: 1px solid #2f2820;
+  }
+  @media (max-width: 760px) {
+    .pie__grilla { grid-template-columns: 1fr 1fr; }
+    .pie__marca { grid-column: 1 / -1; }
+    .pie { padding-bottom: 5rem; }
+  }
+</style>

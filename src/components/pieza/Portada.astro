@@ -1,0 +1,158 @@
+---
+import Icon from '../Icon.astro';
+import { Image } from 'astro:assets';
+import { negocio as cargarNegocio } from '../../lib/contenido';
+import { enlaceWhatsApp, pendiente } from '../../lib/formato';
+const negocio = await cargarNegocio();
+const wa = (mensaje?: string) => enlaceWhatsApp(negocio.whatsapp, mensaje);
+import { portada } from '../../lib/contenido';
+import { cm, textoMedidas } from '../../lib/formato';
+const { titulo, tituloItalica, bajada, destacada } = await portada();
+---
+<section class="portada" aria-labelledby="titulo-portada">
+  <div class="envoltura portada__grilla">
+    <div class="portada__texto">
+      <h1 id="titulo-portada">{titulo}{tituloItalica && <> <em>{tituloItalica}</em></>}</h1>
+      <p class="portada__bajada">
+        {bajada}
+      </p>
+      <div class="portada__acciones">
+        <a class="boton boton--tinta" href={wa('Hola! Quiero consultar por una pieza del catálogo.')} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={19} />
+          Consultar por WhatsApp
+        </a>
+        <a class="enlace-flecha" href="#catalogo">Ver el catálogo <Icon name="ArrowDown" size={17} /></a>
+      </div>
+      <p class="portada__firma">Fabricantes directos, sin intermediarios.</p>
+    </div>
+
+    {destacada && (
+    <figure class="portada__pieza">
+      <div class="portada__foto">
+        <Image
+          src={destacada.foto}
+          alt={destacada.alt}
+          widths={[480, 760, 1100]}
+          sizes="(max-width: 1000px) min(100vw, 34rem), 40vw"
+          loading="eager"
+          fetchpriority="high"
+          style={`object-position: ${destacada.encuadre}`}
+        />
+        {destacada.muestra && <span class="rotulo muestra portada__muestra">Muestra</span>}
+      </div>
+      <figcaption class="ficha">
+        <span class="ficha__nombre">{destacada.mueble}</span>
+        <span class="ficha__medidas medidas">{textoMedidas(destacada.medidas)}</span>
+        <span class="ficha__cota" aria-hidden="true">
+          <svg viewBox="0 0 200 12" preserveAspectRatio="none">
+            <line x1="0.5" y1="1" x2="0.5" y2="11" />
+            <line x1="199.5" y1="1" x2="199.5" y2="11" />
+            <line class="ficha__linea" x1="1" y1="6" x2="199" y2="6" />
+          </svg>
+          <span class="rotulo">Ancho {cm(destacada.medidas.ancho)} cm</span>
+        </span>
+      </figcaption>
+    </figure>
+    )}
+  </div>
+</section>
+
+<style>
+  .portada {
+    padding-block: clamp(2.5rem, 5vw, 5.5rem) clamp(4rem, 7vw, 6.5rem);
+  }
+  .portada__grilla {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: center;
+  }
+  h1 {
+    font-size: var(--t-hero);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    max-width: 12ch;
+    animation: asoma 1.1s var(--ease) 0.1s both;
+  }
+  h1 em { white-space: nowrap; }
+  .portada__bajada {
+    margin-top: clamp(1.5rem, 2.5vw, 2.25rem);
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+    line-height: 1.6;
+    color: var(--tinta-2);
+    max-width: 44ch;
+    animation: asoma 1.1s var(--ease) 0.25s both;
+  }
+  .portada__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+    margin-top: clamp(2rem, 3vw, 2.75rem);
+    animation: asoma 1.1s var(--ease) 0.35s both;
+  }
+  .portada__firma {
+    margin-top: clamp(2rem, 4vw, 3.5rem);
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--linea);
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--tinta-3);
+    max-width: none;
+  }
+
+  .portada__pieza { position: relative; }
+  .portada__foto {
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radio);
+    overflow: hidden;
+    background: var(--crema-2);
+    animation: descubre 1.4s var(--ease) 0.2s both;
+  }
+  .portada__foto { position: relative; }
+  .portada__foto img { width: 100%; height: 100%; object-fit: cover; }
+  .portada__muestra { top: 0.75rem; bottom: auto; }
+
+  .ficha {
+    position: absolute;
+    right: -1px;
+    bottom: clamp(1.25rem, 3vw, 2rem);
+    width: min(17.5rem, 78%);
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem 1.25rem 1.1rem;
+    background: var(--crema);
+    border-radius: var(--radio) 0 0 var(--radio);
+    animation: entra-ficha 1s var(--ease) 1s both;
+  }
+  .ficha__nombre { font-family: var(--f-serif); font-style: italic; font-size: 1.3125rem; line-height: 1.2; }
+  .ficha__medidas { color: var(--tinta-2); }
+  .ficha__cota { display: grid; gap: 0.3rem; margin-top: 0.5rem; color: var(--cota); }
+  .ficha__cota svg { width: 100%; height: 0.75rem; overflow: visible; }
+  .ficha__cota line { stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .ficha__cota .rotulo { color: var(--tinta-3); text-align: center; }
+
+  @keyframes asoma {
+    from { opacity: 0; translate: 0 0.6em; filter: blur(6px); }
+  }
+  @keyframes descubre {
+    from { clip-path: inset(100% 0 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+  @keyframes entra-ficha {
+    from { opacity: 0; translate: 1.5rem 0; }
+  }
+
+  @media (max-width: 1000px) {
+    .portada__grilla { grid-template-columns: 1fr; }
+    .portada__texto { max-width: 40rem; }
+    .portada__pieza { width: min(100%, 34rem); }
+  }
+  @media (max-width: 560px) {
+    .portada__acciones .boton { width: 100%; }
+    .portada__foto { aspect-ratio: 5 / 6; }
+    .ficha { width: min(15.5rem, 82%); padding: 0.85rem 1rem 0.95rem; }
+    .ficha__nombre { font-size: 1.125rem; }
+  }
+</style>
