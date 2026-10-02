@@ -89,7 +89,8 @@ export async function pasos(): Promise<{ titulo: string; texto: string }[]> {
 export async function negocio(): Promise<Negocio> {
   const e = await getEntry('ajustes', 'negocio');
   if (!e) throw new Error('Falta src/content/ajustes/negocio.yaml');
-  return { ...(e.data as Omit<Negocio, 'ciudad' | 'provincia'>), ciudad: 'Rosario', provincia: 'Santa Fe' };
+  const d = e.data as Omit<Negocio, 'ciudad' | 'provincia'>;
+  return { ...d, instagram: d.instagram.replace(/^@/, ''), ciudad: 'Rosario', provincia: 'Santa Fe' };
 }
 
 export async function portada(): Promise<{ titulo: string; tituloItalica: string; bajada: string; destacada: Pieza | undefined }> {
