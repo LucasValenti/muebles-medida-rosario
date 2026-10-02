@@ -77,12 +77,11 @@ export async function preguntas() {
   return (await getCollection('preguntas')).sort(porOrden).map((p) => p.data);
 }
 
-// Las opiniones de ejemplo se ven solo en desarrollo; publicadas parecerían reseñas inventadas
+// Hasta que haya opiniones reales se muestran dos de ejemplo, para que el cliente vea cómo queda
 export async function opiniones() {
-  return (await getCollection('opiniones'))
-    .sort(porOrden)
-    .map((o) => o.data)
-    .filter((o) => import.meta.env.DEV || !o.pendiente);
+  const todas = (await getCollection('opiniones')).sort(porOrden).map((o) => o.data);
+  const reales = todas.filter((o) => !o.pendiente);
+  return reales.length > 0 ? reales : todas.slice(0, 2);
 }
 
 export async function pasos(): Promise<{ titulo: string; texto: string }[]> {

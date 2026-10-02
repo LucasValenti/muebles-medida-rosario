@@ -8,7 +8,7 @@ const opiniones = await cargarOpiniones();
     <div class="cabecera">
       <h2 id="titulo-opiniones">Lo que dicen <em>en casa.</em></h2>
     </div>
-    <ul class="citas">
+    <ul class="citas" style={`--columnas: ${Math.min(opiniones.length, 3)}`}>
       {opiniones.map((o) => (
         <li class:list={['cita', { 'cita--pendiente': o.pendiente }]}>
           <blockquote><p>“{o.texto}”</p></blockquote>
@@ -24,7 +24,7 @@ const opiniones = await cargarOpiniones();
   .opiniones { padding-block: var(--seccion); }
   .citas {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--columnas, 3), minmax(0, 1fr));
     gap: clamp(1.5rem, 3vw, 2.5rem);
     list-style: none;
     padding: 0;
