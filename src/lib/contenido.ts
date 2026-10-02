@@ -14,6 +14,7 @@ export type Pieza = {
   ambiente: string;
   terminacion: string;
   foto: ImageMetadata;
+  fotos: ImageMetadata[];
   alt: string;
   encuadre: string;
   muestra: boolean;
@@ -60,6 +61,7 @@ export async function catalogo(): Promise<Pieza[]> {
     ambiente: d.ambiente,
     terminacion: d.terminacion,
     foto: d.foto,
+    fotos: [d.foto, ...d.masFotos],
     alt: d.alt || d.mueble,
     encuadre: ENCUADRES[d.encuadre] ?? ENCUADRES.centro,
     muestra: d.muestra,

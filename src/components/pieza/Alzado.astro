@@ -123,17 +123,17 @@ const uid = `${tipo}-${ancho}-${alto}`;
   {piso && <line class="alzado__piso" x1="6" y1={pie} x2="236" y2={pie} />}
   <g class="alzado__mueble">
     {llenos.map((d) => <path class="alzado__lleno" d={d} fill-rule="evenodd" />)}
-    {contornos.map((d) => <path d={d} />)}
-    {rects.map((r) => <rect x={r.x} y={r.y} width={r.w} height={r.h} />)}
-    {lineas.map(([x1, y1, x2, y2]) => <line x1={x1} y1={y1} x2={x2} y2={y2} />)}
+    {contornos.map((d) => <path d={d} pathLength="1" />)}
+    {rects.map((r) => <rect x={r.x} y={r.y} width={r.w} height={r.h} pathLength="1" />)}
+    {lineas.map(([x1, y1, x2, y2]) => <line x1={x1} y1={y1} x2={x2} y2={y2} pathLength="1" />)}
   </g>
   <g class="alzado__cota">
-    <line x1={x} y1={pie + 5} x2={x} y2={cy + 5} />
-    <line x1={x + w} y1={pie + 5} x2={x + w} y2={cy + 5} />
-    <line x1={x} y1={cy} x2={x + w} y2={cy} marker-start={`url(#fl-${uid})`} marker-end={`url(#fl-${uid})`} />
-    <line x1={x + w + 5} y1={y} x2={cx + 5} y2={y} />
-    <line x1={x + w + 5} y1={pie} x2={cx + 5} y2={pie} />
-    <line x1={cx} y1={y} x2={cx} y2={pie} marker-start={`url(#fl-${uid})`} marker-end={`url(#fl-${uid})`} />
+    <line x1={x} y1={pie + 5} x2={x} y2={cy + 5} pathLength="1" />
+    <line x1={x + w} y1={pie + 5} x2={x + w} y2={cy + 5} pathLength="1" />
+    <line x1={x} y1={cy} x2={x + w} y2={cy} pathLength="1" marker-start={`url(#fl-${uid})`} marker-end={`url(#fl-${uid})`} />
+    <line x1={x + w + 5} y1={y} x2={cx + 5} y2={y} pathLength="1" />
+    <line x1={x + w + 5} y1={pie} x2={cx + 5} y2={pie} pathLength="1" />
+    <line x1={cx} y1={y} x2={cx} y2={pie} pathLength="1" marker-start={`url(#fl-${uid})`} marker-end={`url(#fl-${uid})`} />
   </g>
 </svg>
 <span class="alzado__medida" style={pct(x + w / 2, cy + 13)} aria-hidden="true">{cm(ancho)} cm</span>
@@ -159,4 +159,41 @@ const uid = `${tipo}-${ancho}-${alto}`;
   .alzado__mueble :is(rect, line, path) { fill: none; stroke: var(--tinta); stroke-width: 1.15; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
   .alzado__mueble .alzado__lleno { fill: var(--tinta); fill-opacity: 0.14; stroke: none; }
   .alzado__cota line { stroke: currentColor; stroke-width: 0.8; vector-effect: non-scaling-stroke; }
+
+  /* El dibujo se traza al entrar en pantalla: primero el mueble, después las cotas y las medidas */
+  .alzado-lienzo--espera :is(.alzado__mueble :is(rect, line, path), .alzado__cota line) { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .alzado-lienzo--espera :is(.alzado__lleno, .alzado__cota, .alzado__medida) { opacity: 0; }
+  .alzado-lienzo--trazado :is(.alzado__mueble :is(rect, line, path), .alzado__cota line) {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1.3s cubic-bezier(0.45, 0, 0.25, 1) var(--retraso, 0s);
+  }
+  .alzado-lienzo--trazado .alzado__cota line { transition-delay: calc(var(--retraso, 0s) + 1s); transition-duration: 0.7s; }
+  .alzado-lienzo--trazado :is(.alzado__lleno, .alzado__cota, .alzado__medida) {
+    transition: opacity 0.5s ease calc(var(--retraso, 0s) + 1s);
+  }
+  .alzado-lienzo--trazado .alzado__medida { transition-delay: calc(var(--retraso, 0s) + 1.5s); }
 </style>
+
+<script>
+  const lienzos = document.querySelectorAll<HTMLElement>('.alzado-lienzo');
+  if (lienzos.length && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        entradas
+          .filter((e) => e.isIntersecting)
+          .forEach((e, i) => {
+            const lienzo = e.target as HTMLElement;
+            lienzo.style.setProperty('--retraso', `${i * 0.12}s`);
+            lienzo.classList.replace('alzado-lienzo--espera', 'alzado-lienzo--trazado');
+            observador.unobserve(lienzo);
+          });
+      },
+      { threshold: 0.5 },
+    );
+    lienzos.forEach((l) => {
+      l.classList.add('alzado-lienzo--espera');
+      observador.observe(l);
+    });
+  }
+</script>

@@ -111,7 +111,7 @@ const { titulo, tituloItalica, bajada, destacada } = await portada();
     animation: descubre 1.4s var(--ease) 0.2s both;
   }
   .portada__foto { position: relative; }
-  .portada__foto img { width: 100%; height: 100%; object-fit: cover; }
+  .portada__foto img { width: 100%; height: 100%; object-fit: cover; animation: asienta 1.8s var(--ease) 0.2s both; }
   .portada__muestra { top: 0.75rem; bottom: auto; }
 
   .ficha {
@@ -131,7 +131,20 @@ const { titulo, tituloItalica, bajada, destacada } = await portada();
   .ficha__cota { display: grid; gap: 0.3rem; margin-top: 0.5rem; color: var(--cota); }
   .ficha__cota svg { width: 100%; height: 0.75rem; overflow: visible; }
   .ficha__cota line { stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
-  .ficha__cota .rotulo { color: var(--tinta-3); text-align: center; }
+  .ficha__cota .rotulo { color: var(--tinta-3); text-align: center; animation: aparece 0.5s ease 2.1s both; }
+  /* Cierre de la entrada: la cota se tira desde el centro hasta los topes, como al medir */
+  .ficha__cota line:not(.ficha__linea) { animation: aparece 0.3s ease 1.4s both; }
+  .ficha__linea { transform-box: fill-box; transform-origin: center; animation: traza 0.8s var(--ease) 1.5s both; }
+
+  @keyframes asienta {
+    from { scale: 1.08; }
+  }
+  @keyframes traza {
+    from { transform: scaleX(0); }
+  }
+  @keyframes aparece {
+    from { opacity: 0; }
+  }
 
   @keyframes asoma {
     from { opacity: 0; translate: 0 0.6em; filter: blur(6px); }

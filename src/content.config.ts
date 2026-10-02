@@ -14,6 +14,7 @@ const catalogo = defineCollection({
       mueble: z.string(),
       orden,
       foto: image(),
+      masFotos: z.array(image()).default([]),
       alt: z.string().default(''),
       encuadre: z.enum(['centro', 'arriba', 'abajo']).default('centro'),
       muestra: z.boolean().default(true),

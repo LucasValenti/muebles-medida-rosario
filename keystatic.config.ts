@@ -121,6 +121,19 @@ export default config({
           publicPath: '../../assets/catalogo/',
           validation: { isRequired: true },
         }),
+        masFotos: fields.array(
+          fields.image({
+            label: 'Foto',
+            directory: 'src/assets/catalogo',
+            publicPath: '../../assets/catalogo/',
+            validation: { isRequired: true },
+          }),
+          {
+            label: 'Más fotos (opcional)',
+            description: 'Otros ángulos o detalles. Se ven al tocar la foto principal en la página.',
+            itemLabel: () => 'Foto',
+          },
+        ),
         alt: fields.text({ label: 'Descripción de la foto', description: 'Qué se ve. Sirve para Google y para personas ciegas.' }),
         encuadre,
         muestra,

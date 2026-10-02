@@ -7,8 +7,14 @@ import { enlaceWhatsApp, pendiente } from '../../lib/formato';
 const negocio = await cargarNegocio();
 const wa = (mensaje?: string) => enlaceWhatsApp(negocio.whatsapp, mensaje);
 import { catalogo as cargarCatalogo } from '../../lib/contenido';
-import { cm } from '../../lib/formato';
+import { cm, textoMedidas } from '../../lib/formato';
 const catalogo = await cargarCatalogo();
+
+// Todas las fotos en fila para la galería; cada pieza abre en su primera foto
+const galeria = catalogo.flatMap((p) =>
+  p.fotos.map((foto, j) => ({ foto, pieza: p, alt: j === 0 ? p.alt : `${p.mueble}, foto ${j + 1} de ${p.fotos.length}` })),
+);
+const inicios = catalogo.map((_, i) => catalogo.slice(0, i).reduce((n, p) => n + p.fotos.length, 0));
 ---
 {catalogo.length > 0 && (
 <section id="catalogo" class="catalogo" aria-labelledby="titulo-catalogo">
@@ -22,15 +28,18 @@ const catalogo = await cargarCatalogo();
       {catalogo.map((p, i) => (
         <li class="linea" data-provisorio={p.medidasProvisorias ? '' : undefined}>
           <div class="linea__foto">
-            <Image
-              src={p.foto}
-              alt={p.alt}
-              loading={i < 2 ? 'eager' : 'lazy'}
-              widths={[400, 640, 900]}
-              sizes="(max-width: 600px) 84vw, (max-width: 1180px) 50vw, 25vw"
-              style={`object-position: ${p.encuadre}`}
-            />
+            <button type="button" class="linea__abrir" data-galeria={inicios[i]} aria-label={`Ver ${p.fotos.length > 1 ? `las ${p.fotos.length} fotos` : 'la foto'} de ${p.mueble} en grande`}>
+              <Image
+                src={p.foto}
+                alt={p.alt}
+                loading={i < 2 ? 'eager' : 'lazy'}
+                widths={[400, 640, 900]}
+                sizes="(max-width: 600px) 84vw, (max-width: 1180px) 50vw, 25vw"
+                style={`object-position: ${p.encuadre}`}
+              />
+            </button>
             {p.muestra && <span class="rotulo muestra">Muestra</span>}
+            {p.fotos.length > 1 && <span class="rotulo muestra linea__mas" aria-hidden="true">{p.fotos.length} fotos</span>}
           </div>
           <div class="linea__cabeza">
             <h3>{p.mueble}</h3>
@@ -57,8 +66,91 @@ const catalogo = await cargarCatalogo();
       ))}
     </ul>
   </div>
+
+  <dialog class="galeria" aria-label="Fotos del catálogo">
+    <div class="galeria__barra">
+      <p class="rotulo" aria-live="polite"><span data-actual>1</span> de {galeria.length}</p>
+      <button type="button" class="galeria__boton" data-cerrar aria-label="Cerrar las fotos"><Icon name="X" size={20} /></button>
+    </div>
+    <ul class="galeria__pista" role="list">
+      {galeria.map((g) => (
+        <li class="galeria__item">
+          <figure>
+            <Image src={g.foto} alt={g.alt} widths={[640, 1000, 1400]} sizes="(max-width: 760px) 100vw, 70vw" loading="lazy" />
+            <figcaption>
+              <span class="galeria__nombre">{g.pieza.mueble}</span>
+              <span class="medidas">{textoMedidas(g.pieza.medidas)}</span>
+              {g.pieza.muestra && <span class="rotulo">Muestra</span>}
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+    <button type="button" class="galeria__boton galeria__flecha galeria__flecha--atras" data-paso="-1" aria-label="Foto anterior"><Icon name="ArrowLeft" size={20} /></button>
+    <button type="button" class="galeria__boton galeria__flecha galeria__flecha--adelante" data-paso="1" aria-label="Foto siguiente"><Icon name="ArrowRight" size={20} /></button>
+  </dialog>
 </section>
 )}
+
+<script>
+  const dialogo = document.querySelector<HTMLDialogElement>('.galeria');
+  if (dialogo) {
+    const pista = dialogo.querySelector<HTMLElement>('.galeria__pista')!;
+    const items = [...pista.children] as HTMLElement[];
+    const actual = dialogo.querySelector('[data-actual]')!;
+    const [atras, adelante] = dialogo.querySelectorAll<HTMLButtonElement>('[data-paso]');
+    const quieto = matchMedia('(prefers-reduced-motion: reduce)');
+    let indice = 0;
+    let abridor: HTMLElement | null = null;
+    // Mientras las flechas desplazan la pista, las fotos que pasan no cuentan como la actual
+    let navegando = 0;
+
+    const marcar = (i: number) => {
+      indice = i;
+      actual.textContent = String(i + 1);
+      atras.disabled = i === 0;
+      adelante.disabled = i === items.length - 1;
+    };
+    const ir = (i: number, suave = true) => {
+      const destino = Math.max(0, Math.min(items.length - 1, i));
+      const animado = suave && !quieto.matches;
+      if (animado) {
+        clearTimeout(navegando);
+        navegando = window.setTimeout(() => {
+          navegando = 0;
+          marcar(Math.round(pista.scrollLeft / pista.clientWidth));
+        }, 800);
+      }
+      pista.scrollTo({ left: items[destino].offsetLeft, behavior: animado ? 'smooth' : 'instant' });
+      marcar(destino);
+    };
+
+    const observador = new IntersectionObserver(
+      (entradas) => entradas.forEach((e) => e.isIntersecting && !navegando && marcar(items.indexOf(e.target as HTMLElement))),
+      { root: pista, threshold: 0.6 },
+    );
+    items.forEach((item) => observador.observe(item));
+
+    document.querySelectorAll<HTMLElement>('[data-galeria]').forEach((boton) =>
+      boton.addEventListener('click', () => {
+        abridor = boton;
+        dialogo.showModal();
+        ir(Number(boton.dataset.galeria), false);
+      }),
+    );
+    dialogo.addEventListener('close', () => abridor?.focus({ preventScroll: true }));
+    dialogo.querySelectorAll<HTMLElement>('[data-paso]').forEach((b) => b.addEventListener('click', () => ir(indice + Number(b.dataset.paso))));
+    dialogo.querySelector('[data-cerrar]')!.addEventListener('click', () => dialogo.close());
+    dialogo.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') ir(indice + 1);
+      if (e.key === 'ArrowLeft') ir(indice - 1);
+    });
+    // Tocar fuera de la foto cierra
+    pista.addEventListener('click', (e) => {
+      if (!(e.target as HTMLElement).closest('figure')) dialogo.close();
+    });
+  }
+</script>
 
 <style>
   .catalogo { padding-block: var(--seccion); }
@@ -89,6 +181,110 @@ const catalogo = await cargarCatalogo();
     transition: scale 1.2s var(--ease);
   }
   .linea:hover .linea__foto img { scale: 1.035; }
+  .linea__abrir {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: zoom-in;
+  }
+  .linea__abrir:focus-visible { outline-offset: -4px; outline-color: var(--crema); }
+  .linea__foto .muestra { pointer-events: none; }
+  .linea__mas { left: auto; right: 0.75rem; }
+
+  /* Galería a pantalla completa: fondo nogal, como las secciones oscuras */
+  .galeria {
+    width: 100%;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--pie);
+    color: var(--texto-nogal);
+  }
+  .galeria[open] {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    animation: galeria-abre 0.35s var(--ease);
+  }
+  .galeria::backdrop { background: var(--pie); }
+  :global(html:has(.galeria[open])) { overflow: hidden; }
+  .galeria .rotulo { color: var(--cota-nogal); }
+
+  .galeria__barra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem var(--gutter);
+  }
+  .galeria__boton {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--linea-nogal);
+    border-radius: 999px;
+    background: var(--pie);
+    color: var(--texto-nogal);
+    cursor: pointer;
+    transition: border-color 0.3s var(--ease), color 0.3s var(--ease), opacity 0.3s;
+  }
+  .galeria__boton:hover:not(:disabled) { border-color: var(--oro); color: var(--oro); }
+  .galeria__boton:disabled { opacity: 0.3; cursor: default; }
+
+  .galeria__pista {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    overflow-x: auto;
+    overscroll-behavior: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .galeria__pista::-webkit-scrollbar { display: none; }
+  .galeria__item {
+    display: grid;
+    place-items: center;
+    padding: 0 clamp(1rem, 7vw, 6.5rem) clamp(1rem, 3vw, 2rem);
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+  .galeria__item figure { display: grid; gap: 1rem; justify-items: start; max-width: 100%; }
+  .galeria__item img {
+    width: auto;
+    max-width: 100%;
+    max-height: calc(100dvh - 10rem);
+    object-fit: contain;
+    border-radius: var(--radio);
+  }
+  .galeria__item figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem 1rem; }
+  .galeria__nombre { font-family: var(--f-serif); font-style: italic; font-size: 1.3125rem; }
+  .galeria__item .medidas { color: var(--cota-nogal); }
+
+  .galeria__flecha {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+  }
+  .galeria__flecha--atras { left: clamp(0.75rem, 2vw, 1.75rem); }
+  .galeria__flecha--adelante { right: clamp(0.75rem, 2vw, 1.75rem); }
+  /* En pantallas táctiles se desliza con el dedo */
+  @media (hover: none), (max-width: 640px) {
+    .galeria__flecha { display: none; }
+  }
+
+  @keyframes galeria-abre {
+    from { opacity: 0; }
+  }
 
   .linea__cabeza {
     display: flex;
