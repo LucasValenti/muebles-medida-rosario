@@ -77,8 +77,12 @@ export async function preguntas() {
   return (await getCollection('preguntas')).sort(porOrden).map((p) => p.data);
 }
 
+// Las opiniones de ejemplo se ven solo en desarrollo; publicadas parecerían reseñas inventadas
 export async function opiniones() {
-  return (await getCollection('opiniones')).sort(porOrden).map((o) => o.data);
+  return (await getCollection('opiniones'))
+    .sort(porOrden)
+    .map((o) => o.data)
+    .filter((o) => import.meta.env.DEV || !o.pendiente);
 }
 
 export async function pasos(): Promise<{ titulo: string; texto: string }[]> {

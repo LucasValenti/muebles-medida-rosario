@@ -37,9 +37,7 @@ const enlaces = [
     position: sticky;
     top: 0;
     z-index: 40;
-    background: rgb(244 239 231 / 0.9);
-    backdrop-filter: blur(12px) saturate(1.1);
-    -webkit-backdrop-filter: blur(12px) saturate(1.1);
+    background: var(--crema);
     border-bottom: 1px solid var(--linea);
   }
   .barra__fila {
@@ -100,6 +98,10 @@ const enlaces = [
 
   @media (max-width: 960px) {
     nav { display: none; }
+  }
+  /* En celular el botón fijo de WhatsApp ya cumple esta función */
+  @media (max-width: 640px) {
+    .barra__cta { display: none; }
   }
   @media (max-width: 420px) {
     .barra__nombre { font-size: 1.125rem; }

@@ -24,8 +24,8 @@ const anio = new Date().getFullYear();
     </nav>
     <ul role="list" class="pie__lista">
       <li><a href={wa()} target="_blank" rel="noopener"><Icon name="whatsapp" size={17} /> WhatsApp</a></li>
-      <li><a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener"><Icon name="instagram" size={17} /> Instagram</a></li>
-      <li><a href={`https://facebook.com/${negocio.facebook}`} target="_blank" rel="noopener"><Icon name="facebook" size={17} /> Facebook</a></li>
+      {!pendiente(negocio.instagram) && <li><a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener"><Icon name="instagram" size={17} /> Instagram</a></li>}
+      {!pendiente(negocio.facebook) && <li><a href={`https://facebook.com/${negocio.facebook}`} target="_blank" rel="noopener"><Icon name="facebook" size={17} /> Facebook</a></li>}
     </ul>
   </div>
   <div class="envoltura pie__base">
