@@ -1,8 +1,7 @@
 import { config, collection, singleton, fields } from '@keystatic/core';
 
 // Producción: Keystatic Cloud (el cliente entra con su email). Desarrollo: archivos locales.
-// El proyecto de Keystatic Cloud se configura con PUBLIC_KEYSTATIC_PROJECT="equipo/proyecto".
-const proyectoCloud = import.meta.env.PUBLIC_KEYSTATIC_PROJECT as string | undefined;
+const enDesarrollo = import.meta.env.DEV;
 
 const encuadre = fields.select({
   label: 'Encuadre de la foto',
@@ -29,8 +28,8 @@ const centimetros = (label: string, defaultValue: number) =>
   fields.number({ label: `${label} (cm)`, defaultValue, step: 0.5, validation: { isRequired: true, min: 1, max: 1000 } });
 
 export default config({
-  storage: proyectoCloud ? { kind: 'cloud' } : { kind: 'local' },
-  ...(proyectoCloud ? { cloud: { project: proyectoCloud } } : {}),
+  storage: enDesarrollo ? { kind: 'local' } : { kind: 'cloud' },
+  cloud: { project: 'muebles-pinterest/mueblesmedidarosario' },
   locale: 'es-ES',
   ui: {
     brand: { name: 'Tu sitio' },
