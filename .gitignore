@@ -6,3 +6,12 @@ dist/
 .impeccable/review/
 .env
 .dev.vars
+
+# Capa KUSAK
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
+test-results/
+playwright-report/
+.lighthouseci/

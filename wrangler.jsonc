@@ -1,5 +1,7 @@
 {
   "name": "muebles-medida-rosario",
   "compatibility_date": "2026-09-26",
-  "compatibility_flags": ["nodejs_compat"]
+  "compatibility_flags": ["nodejs_compat"],
+  // Logs de errores en Cloudflare (capa KUSAK)
+  "observability": { "enabled": true }
 }
