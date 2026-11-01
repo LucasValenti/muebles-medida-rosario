@@ -10,8 +10,8 @@
     "publicar": "astro build && wrangler deploy"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.3.3",
-    "@astrojs/react": "^7.0.0",
+    "@astrojs/cloudflare": "^14.4.3",
+    "@astrojs/react": "^7.1.2",
     "@fontsource-variable/geist": "^5.3.0",
     "@fontsource-variable/geist-mono": "^5.3.0",
     "@fontsource-variable/hanken-grotesk": "^5.3.0",
@@ -20,12 +20,12 @@
     "@keystatic/astro": "^6.0.0",
     "@keystatic/core": "^0.6.9",
     "astro": "^7.3.5",
-    "lucide-static": "^1.49.0",
-    "react": "^19.3.0",
-    "react-aria": "^3.50.0",
-    "react-dom": "^19.3.0",
-    "react-stately": "^3.48.0",
-    "simple-icons": "^16.33.0"
+    "lucide-static": "^1.64.0",
+    "react": "^19.3.1",
+    "react-aria": "^3.53.1",
+    "react-dom": "^19.3.1",
+    "react-stately": "^3.51.0",
+    "simple-icons": "^16.36.0"
   },
   "allowScripts": {
     "esbuild@0.28.1": true,
